@@ -1,0 +1,159 @@
+body {
+  background-color: #edf0f1; }
+  body header ._header {
+    height: 100px;
+    background: url(../img/header-banner.jpg) no-repeat 50% 50%;
+    background-size: cover; }
+    body header ._header .time-and-date {
+      margin: 10px 25px 10px 25px;
+      display: inline-block; }
+      body header ._header .time-and-date p {
+        color: #ffffff;
+        line-height: 1.2;
+        text-align: center; }
+        body header ._header .time-and-date p#date {
+          line-height: 0.2;
+          font-size: 24px; }
+    body header ._header ._contacts {
+      float: right;
+      margin: 15px 15px 0 0; }
+      @media (max-width: 320px) {
+        body header ._header ._contacts {
+          display: block; } }
+      body header ._header ._contacts ul {
+        list-style: none; }
+        body header ._header ._contacts ul li a {
+          color: #ffffff; }
+    @media (max-width: 320px) {
+      body header ._header {
+        height: 180px; } }
+    body header ._header ._logo {
+      margin: 10px 0 7px 40px;
+      width: 200px; }
+      @media (max-width: 360px) {
+        body header ._header ._logo {
+          margin: 10px 0 7px 0; } }
+      @media (max-width: 375px) {
+        body header ._header ._logo {
+          margin: 10px 0 7px 0; } }
+      @media (max-width: 425px) {
+        body header ._header ._logo {
+          margin: 10px 0 7px 0; } }
+    @media (max-width: 360px) {
+      body header ._header {
+        text-align: center; } }
+    @media (max-width: 375px) {
+      body header ._header {
+        text-align: center; } }
+    @media (max-width: 425px) {
+      body header ._header {
+        text-align: center; } }
+  body header .main-menu {
+    margin: 5px 0 0 0;
+    display: flex;
+    justify-content: space-between; }
+    body header .main-menu .login ul li {
+      background-color: #2b3b68; }
+      body header .main-menu .login ul li a {
+        color: #ffffff; }
+  body header ._search {
+    margin-top: 5px; }
+    body header ._search .uk-search {
+      border-radius: 5px;
+      border: 1px solid; }
+      body header ._search .uk-search .uk-form-select {
+        border-radius: 0 5px 5px 0; }
+  body main .content-box {
+    margin: 10px 0 10px 0;
+    padding: 10px 10px 0 0;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #ffffff; }
+    @media (max-width: 768px) {
+      body main .content-box {
+        margin: 10px -25px 10px -25px; } }
+    @media (max-width: 425px) {
+      body main .content-box {
+        padding: 10px 0 0 0; }
+        body main .content-box > * {
+          padding-left: 5px;
+          padding-right: 5px; } }
+    body main .content-box .content.slider {
+      margin-bottom: 30px; }
+      body main .content-box .content.slider .uk-dotnav.uk-dotnav-contrast.uk-position-bottom.uk-flex-center li.uk-active a {
+        width: 25px;
+        height: 25px; }
+    body main .content-box .content a {
+      text-decoration: none; }
+      body main .content-box .content a .uk-panel-title {
+        display: inline-block;
+        margin-right: 2px; }
+        body main .content-box .content a .uk-panel-title + i {
+          color: #444; }
+        body main .content-box .content a .uk-panel-title:hover {
+          color: #87B0D1; }
+          body main .content-box .content a .uk-panel-title:hover + i {
+            color: #87B0D1; }
+    body main .content-box .content .uk-list .preview {
+      width: 100%; }
+    body main .content-box .content .uk-list time {
+      display: block;
+      text-align: center; }
+    body main .content-box .content .uk-list .uk-comment-title {
+      text-align: center;
+      font-size: 24px;
+      padding-bottom: 10px; }
+    body main .content-box .content .uk-list .uk-button {
+      margin: 10px 5px 5px 0;
+      border-radius: 5px 5px 5px 5px; }
+    body main .content-box .about {
+      margin: 20px 0 10px 0; }
+    body main .content-box .calendar .day-week {
+      width: 100%;
+      border-collapse: collapse; }
+      body main .content-box .calendar .day-week tr > th {
+        background: #87B0D1; }
+      body main .content-box .calendar .day-week tr th {
+        padding: 10px 0 10px 0;
+        text-align: center;
+        font-size: 24px; }
+      body main .content-box .calendar .day-week tr td {
+        padding: 10px 0 10px 0;
+        text-align: center;
+        font-size: 20px; }
+    body main .content-box .calendar .nav {
+      display: flex;
+      justify-content: space-around;
+      font-size: 30px;
+      margin: 5px 0 5px 0; }
+    body main .content-box .calendar .day li {
+      display: inline-block;
+      width: 22px;
+      padding: 17px;
+      font-size: 29px; }
+  body footer ._footer {
+    background-color: #1c3766; }
+    body footer ._footer .footer-menu h3 {
+      padding: 10px;
+      color: #ffffff;
+      text-align: center; }
+    body footer ._footer .footer-menu .social {
+      flex-direction: row;
+      flex-wrap: wrap; }
+      body footer ._footer .footer-menu .social li i {
+        font-size: 55px;
+        color: #ffffff; }
+      @media (max-width: 425px) {
+        body footer ._footer .footer-menu .social {
+          margin-bottom: 20px; } }
+    body footer ._footer .footer-menu address {
+      color: #ffffff;
+      font-size: 24px; }
+    body footer ._footer .footer-menu ul {
+      list-style: none; }
+      body footer ._footer .footer-menu ul li a {
+        color: #ffffff; }
+    @media (max-width: 768px) {
+      body footer ._footer .footer-menu {
+        padding: 5px; } }
+
+/*# sourceMappingURL=app.css.map */
