@@ -7,7 +7,7 @@
  */
 ?>
 
-<link rel="stylesheet" href="/public/css/uikit.min.css">
-<link rel="stylesheet" href="/public/css/components/search.min.css">
-<link rel="stylesheet" href="/public/css/components/accordion.min.css">
+<link rel="stylesheet" href="/public/css/uikit.gradient.min.css">
+<link rel="stylesheet" href="/public/css/components/search.gradient.min.css">
+<link rel="stylesheet" href="/public/css/components/accordion.gradient.min.css">
 <link rel="stylesheet" href="/public/css/app.css">
