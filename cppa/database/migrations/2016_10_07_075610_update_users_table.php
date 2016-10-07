@@ -14,7 +14,12 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->integer('user_group')->default(1);
+            $table->integer('access_level')->default(50);
+            $table->string('contacts')->nullable();
+            $table->string('thumbnail')->nullable();
+            $table->boolean('valid_email')->default(false);
+            $table->string('activate_token')->nullable();
         });
     }
 
