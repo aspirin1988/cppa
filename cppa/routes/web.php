@@ -29,6 +29,9 @@ Route::group(['middleware' => 'admin.side'], function() {
 
     // View & Edit User Groups
     Route::get('/admin/user_groups', 'AdminUserGroupsController@index');
+    Route::get('/admin/user_group/getAll', 'AdminUserGroupsController@getAll');
+
+    Route::post('/admin/user_group/add', 'AdminUserGroupsController@add');
 
 
 });

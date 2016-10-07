@@ -17,7 +17,7 @@ class CreateUserGroupsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('access_level')->default(0);
             $table->boolean('access_edit')->default(false);
             $table->timestamps();

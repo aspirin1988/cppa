@@ -164,5 +164,11 @@ main {
   main .info-block {
     box-sizing: border-box;
     width: 100%; }
+  main .user-group table tbody tr {
+    background-color: #ffffff; }
+    main .user-group table tbody tr:hover {
+      background-color: #cccccc !important; }
+    main .user-group table tbody tr:nth-child(2n) {
+      background-color: #aaaaaa; }
 
 /*# sourceMappingURL=app.css.map */

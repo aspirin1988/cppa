@@ -6,6 +6,10 @@ $gray-color: #374047;
 $red-color: #EB4549;
 $black-color: black;
 
+$table-tr-color-1: #aaaaaa;
+$table-tr-color-2: #ffffff;
+$table-tr-color-hover: #cccccc;
+
 $border-avatar-menu: 50%;
 
 html{
@@ -222,6 +226,32 @@ main{
   .info-block{
     box-sizing: border-box;
     width: 100%;
+
+  }
+  .user-group{
+
+    table{
+      //width: 100%;
+      //border-collapse: collapse;
+      thead{
+        //text-align: left;
+      }
+      tbody{
+        tr{
+          &:hover{
+            background-color: $table-tr-color-hover !important;
+          }
+          background-color: $table-tr-color-2 ;
+          &:nth-child(2n){
+            background-color: $table-tr-color-1;
+          }
+          td{
+            //padding: 2px;
+            //text-align: center;
+          }
+        }
+      }
+    }
 
   }
 }
