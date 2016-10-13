@@ -1,4 +1,5 @@
 $white-color: #F8F2E2;
+$modal-border-color: #F8F2E2;
 $green-color: #3BC391;
 $blue-color: #2F79C3;
 $deep-blue-color: #22609e;
@@ -229,6 +230,25 @@ main{
 
   }
   .user-group{
+    .uk-accordion {
+      .uk-accordion-title{
+        &+div{
+          z-index: -1;
+        }
+      }
+      .uk-accordion-content {
+        .uk-form {
+          border-radius: 0 0 5px 5px;
+          margin-top: -2px;
+          background: $table-tr-color-2;
+          padding: 10px;
+          border-left: 1px $modal-border-color solid;
+          border-right: 1px $modal-border-color solid;
+          border-bottom: 1px $modal-border-color solid;
+        }
+
+      }
+    }
 
     table{
       //width: 100%;

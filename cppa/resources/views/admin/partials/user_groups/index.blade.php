@@ -18,7 +18,7 @@
                 <i class="uk-icon-plus-circle uk-text-success"></i>
             </h3>
             <div class="uk-accordion-content">
-                <div style="background: #fff;">
+                <div>
                     <div class="uk-form">
                         <fieldset data-uk-margin>
                             <legend> Добавление нового уровня доступа</legend>
