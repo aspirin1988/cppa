@@ -55,9 +55,8 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
     $scope.CurrentGroup=false;
 
     var modal_edit=UIkit.modal('#edit-modal');
-    console.log(modal_edit);
 
-    $scope.modal_remove=UIkit.modal('#remove-modal');
+    var modal_remove=UIkit.modal('#remove-modal');
 
 
     $scope.getUserGroup= function(){
@@ -87,7 +86,6 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
 
     $scope.openEditUserGroup = function (val) {
         modal_edit.show();
-        console.log(val);
         $scope.CurrentGroup=val;
     };
 
@@ -101,6 +99,30 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
                 if(response.data) {
                     $scope.CurrentGroup = false;
                     modal_edit.hide();
+                }
+            }, function error(response) {});
+        }
+    };
+
+    $scope.openRemoveUserGroup = function (val) {
+        modal_remove.show();
+        $scope.CurrentGroup=val;
+    };
+
+    $scope.closeRemoveUserGroup = function (val) {
+        modal_remove.hide();
+        $scope.CurrentGroup=false;
+    };
+
+    $scope.RemoveUserGroup = function () {
+        if($scope.CurrentGroup){
+            $http({
+                method:'GET',
+                url:'/admin/user_group/remove/'+$scope.CurrentGroup.id
+        }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentGroup = false;
+                    modal_remove.hide();
                 }
             }, function error(response) {});
         }

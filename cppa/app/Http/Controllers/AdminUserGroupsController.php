@@ -35,4 +35,11 @@ class AdminUserGroupsController extends Controller
         $result = UserGroup::where('id',$id)->update($data);
         return response()->json($result);
     }
+
+    public function remove($id)
+    {
+        $result = UserGroup::where('id',$id)->delete($id);
+        return response()->json($result);
+    }
+
 }
