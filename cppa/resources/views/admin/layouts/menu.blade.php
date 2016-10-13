@@ -26,8 +26,8 @@
         <li class="uk-parent">
             <a href="#"><i class="uk-icon uk-icon-book"></i>Страницы</a>
             <ul class="uk-nav-sub">
-                <li><a href="#"><i class="uk-icon uk-icon-list"></i>Список страниц</a></li>
-                <li><a href="#"><i class="uk-icon uk-icon-plus"></i>Добавить</a></li>
+                <li><a href="/admin/pages"><i class="uk-icon uk-icon-list"></i>Список страниц</a></li>
+                <li><a href="/admin/page/new"><i class="uk-icon uk-icon-plus"></i>Добавить</a></li>
             </ul>
         </li>
         <li class="uk-parent">

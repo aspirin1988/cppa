@@ -151,3 +151,10 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload,messa
     
 
 });
+
+app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
+
+    console.log("Is Page");
+
+});
+

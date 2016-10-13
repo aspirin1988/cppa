@@ -13,7 +13,7 @@ class AdminPageController extends Controller
 {
     public function index()
     {
-        return view('admin.partials.page.index');
+        return view('admin.partials.pages.index');
     }
 
     public function getPages()
