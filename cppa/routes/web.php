@@ -32,6 +32,9 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/user_group/getAll', 'AdminUserGroupsController@getAll');
 
     Route::post('/admin/user_group/add', 'AdminUserGroupsController@add');
+    Route::post('/admin/user_group/save', 'AdminUserGroupsController@update');
+
+
 
 
 });

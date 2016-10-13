@@ -8,9 +8,9 @@
 ?>
 
 <script src="/public/js/jquery-3.1.0.min.js"></script>
-<script src="/public/angular/angular.min.js"></script>
-<script src="/public/angular/app.js"></script>
 <script src="/public/js/uikit.min.js"></script>
 <script src="/public/js/components/search.min.js"></script>
 <script src="/public/js/components/accordion.min.js"></script>
 <script src="/public/js/components/grid.min.js"></script>
+<script src="/public/angular/angular.min.js"></script>
+<script src="/public/angular/app.js"></script>

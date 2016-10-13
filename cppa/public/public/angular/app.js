@@ -52,6 +52,14 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
     $scope.UserGroups=[];
     $scope.newGroup={};
 
+    $scope.CurrentGroup=false;
+
+    var modal_edit=UIkit.modal('#edit-modal');
+    console.log(modal_edit);
+
+    $scope.modal_remove=UIkit.modal('#remove-modal');
+
+
     $scope.getUserGroup= function(){
         $http({
             method:'GET',
@@ -61,6 +69,7 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
             $scope.UserGroups= response.data;
         }, function error(response) {});
     };
+
     $scope.getUserGroup();
     
     $scope.addUserGroup = function () {
@@ -69,10 +78,32 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
             url:'/admin/user_group/add',
             data:$scope.newGroup
         }).then(function success(response) {
-            console.log(response.data);
-            $scope.getUserGroup();
-            $scope.clearUserGroup();
+            if (response.data) {
+                $scope.getUserGroup();
+                $scope.clearUserGroup();
+            }
         }, function error(response) {});
+    };
+
+    $scope.openEditUserGroup = function (val) {
+        modal_edit.show();
+        console.log(val);
+        $scope.CurrentGroup=val;
+    };
+
+    $scope.saveUserGroup = function () {
+        if($scope.CurrentGroup){
+            $http({
+                method:'POST',
+                url:'/admin/user_group/save',
+                data:$scope.CurrentGroup
+            }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentGroup = false;
+                    modal_edit.hide();
+                }
+            }, function error(response) {});
+        }
     };
 
     $scope.clearUserGroup = function () {

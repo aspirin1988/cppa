@@ -82,6 +82,7 @@
         <h2 ng-if="UserGroups.length===0">В данный момент список пуст !!!</h2>
             <div ng-if="UserGroups.length>0" class="uk-overflow-container">
                 <h2>Список уровней доступа</h2>
+                [[UserGroups]]
                 <table class="uk-table">
                     <thead>
                     <tr>
@@ -103,7 +104,7 @@
                             <td>[[val.access_edit]]</td>
                             <td>[[val.description]]</td>
                             <td>
-                                <button class="uk-button uk-button-success uk-button-mini" data-uk-modal="{target:'#edit-modal'}" >
+                                <button class="uk-button uk-button-success uk-button-mini" data-uk-modal="{target:'#edit-modal'}" ng-click="openEditUserGroup(val);" >
                                     <i class="uk-icon-edit"></i>
                                 </button>
                                 <button class="uk-button uk-button-danger uk-button-mini" data-uk-modal="{target:'#remove-modal'}">
@@ -120,6 +121,54 @@
         <div class="uk-modal-dialog">
             <a class="uk-modal-close uk-close"></a>
             <h1>Edit access_level</h1>
+            <div style="background: #fff;">
+                <div class="uk-form">
+                    [[CurrentGroup]]
+                    <fieldset data-uk-margin>
+                        <legend> Добавление нового уровня доступа</legend>
+                        <div class="uk-grid">
+                            <div class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-2">
+                                <label class="uk-form-label">Название</label>
+                                <div class="uk-form-controls">
+                                    <input type="text" ng-model="CurrentGroup.name" placeholder="Название">
+                                </div>
+                            </div>
+                            <div class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-2">
+                                <label class="uk-form-label">Ярлык</label>
+                                <div class="uk-form-controls">
+                                    <input type="text" ng-model="CurrentGroup.slug" placeholder="Ярлык">
+                                </div>
+                            </div>
+                            <div class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-2">
+                                <label class="uk-form-label">Описание</label>
+                                <div class="uk-form-controls">
+                                    <textarea ng-model="CurrentGroup.description" placeholder=""></textarea>
+                                </div>
+                            </div>
+                            <div class="uk-width-small-1-1 uk-width-medium-1-2 uk-width-large-1-2">
+                                <label class="uk-form-label">Уровень доступа</label>
+                                <div class="uk-form-controls">
+                                    <input ng-model="CurrentGroup.access_level">
+                                </div>
+                                <div class="uk-form-controls">
+                                    <label><input type="checkbox" ng-model="CurrentGroup.access_edit">Редактирование</label>
+                                </div>
+                            </div>
+                            <div class="uk-width-1-1">
+                                <br>
+                                <br>
+                                <div class="uk-text-center uk-form-controls">
+                                    <button class="uk-button uk-button-success" ng-click="saveUserGroup()" >
+                                        <i class="uk-icon-save"></i>
+                                    </button>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -129,7 +178,7 @@
             <h2>Вы действительно хотите удалить !</h2>
             <div class="uk-container uk-container-center uk-flex uk-flex-space-around" >
                 <button class="uk-button uk-button-danger">Yes</button>
-                <button class="uk-button uk-button-success uk-modal-close " >No</button>
+                <button class="uk-button uk-button-success uk-modal-close" >No</button>
             </div>
         </div>
     </div>

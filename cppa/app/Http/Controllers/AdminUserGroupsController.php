@@ -26,4 +26,13 @@ class AdminUserGroupsController extends Controller
         $data = UserGroup::create($data);
         return response()->json($data);
     }
+
+    public function update(Request $request)
+    {
+        $data = $request->all();
+        $id = $data['id'];
+        unset($data['id']);
+        $result = UserGroup::where('id',$id)->update($data);
+        return response()->json($result);
+    }
 }
