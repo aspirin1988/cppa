@@ -10,4 +10,5 @@
 <link rel="stylesheet" href="/public/css/uikit.gradient.min.css">
 <link rel="stylesheet" href="/public/css/components/search.gradient.min.css">
 <link rel="stylesheet" href="/public/css/components/accordion.gradient.min.css">
+<link rel="stylesheet" href="/public/css/components/notify.gradient.min.css">
 <link rel="stylesheet" href="/public/css/app.css">

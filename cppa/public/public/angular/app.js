@@ -42,33 +42,39 @@ app.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
+app.service('messageWeb',function () {
+    this.messageSuccess=function (message) {
+        UIkit.notify(message, {status:'success'})
+    };
+
+    this.messageError=function (message) {
+        UIkit.notify(message, {status:'danger'})
+    };
+});
+
 app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
 });
 
-app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
+app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
 
     $scope.UserGroups=[];
     $scope.newGroup={};
-
     $scope.CurrentGroup=false;
 
     var modal_edit=UIkit.modal('#edit-modal');
 
     var modal_remove=UIkit.modal('#remove-modal');
 
-
     $scope.getUserGroup= function(){
         $http({
             method:'GET',
             url:'/admin/user_group/getAll'
         }).then(function success(response) {
-            console.log(response.data);
             $scope.UserGroups= response.data;
         }, function error(response) {});
     };
-
     $scope.getUserGroup();
     
     $scope.addUserGroup = function () {
@@ -80,8 +86,11 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
             if (response.data) {
                 $scope.getUserGroup();
                 $scope.clearUserGroup();
+                messageWeb.messageSuccess('Уровень доступа был успешно добавлен!');
             }
-        }, function error(response) {});
+        }, function error(response) {
+            messageWeb.messageError('Уровень доступа не был добавлен!');
+        });
     };
 
     $scope.openEditUserGroup = function (val) {
@@ -99,8 +108,12 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
                 if(response.data) {
                     $scope.CurrentGroup = false;
                     modal_edit.hide();
+                    messageWeb.messageSuccess('Уровень доступа был успешно сохранен!');
+
                 }
-            }, function error(response) {});
+            }, function error(response) {
+                messageWeb.messageError('Уровень доступа не был сохранен!');
+            });
         }
     };
 
@@ -122,9 +135,13 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload) {
         }).then(function success(response) {
                 if(response.data) {
                     $scope.CurrentGroup = false;
+                    $scope.getUserGroup();
                     modal_remove.hide();
+                    messageWeb.messageSuccess('Уровень доступа был успешно удален!');
                 }
-            }, function error(response) {});
+            }, function error(response) {
+                messageWeb.messageError('Уровень доступа не был удален!');
+            });
         }
     };
 

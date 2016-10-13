@@ -17,7 +17,6 @@
                 Добавить уровень доступа
                 <i class="uk-icon-plus-circle uk-text-success"></i>
             </h3>
-            [[newGroup]]
             <div class="uk-accordion-content">
                 <div style="background: #fff;">
                     <div class="uk-form">
@@ -82,7 +81,6 @@
         <h2 ng-if="UserGroups.length===0">В данный момент список пуст !!!</h2>
             <div ng-if="UserGroups.length>0" class="uk-overflow-container">
                 <h2>Список уровней доступа</h2>
-                [[UserGroups]]
                 <table class="uk-table">
                     <thead>
                     <tr>
@@ -123,7 +121,6 @@
             <h1>Edit access_level</h1>
             <div style="background: #fff;">
                 <div class="uk-form">
-                    [[CurrentGroup]]
                     <fieldset data-uk-margin>
                         <legend> Добавление нового уровня доступа</legend>
                         <div class="uk-grid">
