@@ -14,12 +14,13 @@ class AdminSide
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        if(Auth::user()->access_level >= 800) {
-            return $next($request);
-        } else {
-            return redirect()->back();
+        if (Auth::guard($guard)->check()) {
+            if (Auth::user()->access_level >= 800) {
+                return $next($request);
+            }
         }
+            return redirect('/login');
     }
 }

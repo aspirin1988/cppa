@@ -2,7 +2,7 @@
  * Created by serg on 07.10.16.
  */
 
-var app = angular.module('cppaApp',[]);
+var app = angular.module('cppaApp',['ui.tinymce']);
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
@@ -154,7 +154,46 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload,messa
 
 app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
 
-    console.log("Is Page");
+    $scope.PageId=false;
+    $scope.Page={};
+
+    $scope.getPage = function () {
+        $http({
+            method:"GET",
+            url:'/admin/pages/get/'+$scope.PageId
+        }).then(function success (response) {
+            if(response.data){
+                console.log(response.data);
+                $scope.Page=response.data;
+            }
+        },function error (response) {});
+    };
+
+    $scope.savePage = function (status) {
+        $scope.Page.status=status;
+        $http({
+            method:"POST",
+            url:'/admin/pages/edit/'+$scope.PageId,
+            data: $scope.Page
+        }).then(function success (response) {
+            if(response.data){
+                console.log(response.data);
+                messageWeb.messageSuccess('Данные странцы успешно обновлены!');
+            }
+        },function error (response) {
+            messageWeb.messageError('Данные странцы не обновлены!');
+        });
+    };
+
+    $scope.$watch('PageId',function () {
+        $scope.getPage();
+    });
+
+
+    $scope.tinymceOptions = {
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
 
 });
 

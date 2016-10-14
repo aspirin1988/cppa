@@ -16,9 +16,19 @@ class AdminPageController extends Controller
         return view('admin.partials.pages.index');
     }
 
+    public function edit($id)
+    {
+        return view('admin.partials.pages.edit',['id'=>$id]);
+    }
+
     public function getPages()
     {
         return response()->json(Page::get());
+    }
+
+    public function getPage($id)
+    {
+        return response()->json(Page::where('id',$id)->first());
     }
 
     public function addPage()

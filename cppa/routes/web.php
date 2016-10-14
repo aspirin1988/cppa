@@ -37,6 +37,11 @@ Route::group(['middleware' => 'admin.side'], function() {
 
     // View & edit Pages
     Route::get('/admin/pages', 'AdminPageController@index');
+    Route::get('/admin/pages/edit/{id}', 'AdminPageController@edit');
+    Route::get('/admin/pages/get', 'AdminPageController@getPages');
+    Route::get('/admin/pages/get/{id}', 'AdminPageController@getPage');
+
+    Route::post('/admin/pages/edit/{id}', 'AdminPageController@update');
 
 
 

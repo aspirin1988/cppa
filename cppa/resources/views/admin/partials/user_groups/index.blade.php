@@ -13,7 +13,7 @@
     <h2>Настройка уровня доступа</h2>
     <div class="uk-container uk-container-center">
         <div class="uk-accordion" data-uk-accordion="{collapse: false, showfirst: false}">
-            <h3 class="uk-accordion-title" ng-class="{'uk-active':newGroup.length==0}">
+            <h3 class="uk-accordion-title">
                 Добавить уровень доступа
                 <i class="uk-icon-plus-circle uk-text-success"></i>
             </h3>

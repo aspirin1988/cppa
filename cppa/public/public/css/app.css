@@ -164,8 +164,8 @@ main {
   main .info-block {
     box-sizing: border-box;
     width: 100%; }
-  main .user-group .uk-accordion .uk-accordion-title + div {
-    z-index: -1; }
+  main .user-group .uk-accordion .uk-accordion-title {
+    z-index: 1; }
   main .user-group .uk-accordion .uk-accordion-content .uk-form {
     border-radius: 0 0 5px 5px;
     margin-top: -2px;

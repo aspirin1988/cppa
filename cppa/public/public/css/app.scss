@@ -232,9 +232,8 @@ main{
   .user-group{
     .uk-accordion {
       .uk-accordion-title{
-        &+div{
-          z-index: -1;
-        }
+
+          z-index: 1;
       }
       .uk-accordion-content {
         .uk-form {
