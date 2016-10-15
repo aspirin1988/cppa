@@ -48,14 +48,10 @@ body {
     @media (max-width: 425px) {
       body header ._header {
         text-align: center; } }
-  body header .main-menu {
-    margin: 5px 0 0 0;
-    display: flex;
-    justify-content: space-between; }
-    body header .main-menu .login ul li {
-      background-color: #2b3b68; }
-      body header .main-menu .login ul li a {
-        color: #ffffff; }
+  body header .main-menu .login ul li {
+    background-color: #2b3b68; }
+    body header .main-menu .login ul li a {
+      color: #ffffff; }
   body header ._search {
     margin-top: 5px; }
     body header ._search .uk-search {
