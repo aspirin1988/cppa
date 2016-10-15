@@ -5,8 +5,10 @@ body {
     background: url(../img/header-banner.jpg) no-repeat 50% 50%;
     background-size: cover; }
     body header ._header .time-and-date {
-      margin: 10px 25px 10px 25px;
-      display: inline-block; }
+      margin: 25px 25px 10px 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
       body header ._header .time-and-date p {
         color: #ffffff;
         line-height: 1.2;
@@ -16,6 +18,7 @@ body {
           font-size: 24px; }
     body header ._header ._contacts {
       float: right;
+      font-size: 15px;
       margin: 15px 15px 0 0; }
       @media (max-width: 320px) {
         body header ._header ._contacts {
@@ -24,7 +27,7 @@ body {
         list-style: none; }
         body header ._header ._contacts ul li a {
           color: #ffffff; }
-    @media (max-width: 320px) {
+    @media (max-width: 425px) {
       body header ._header {
         height: 180px; } }
     body header ._header ._logo {
@@ -48,10 +51,13 @@ body {
     @media (max-width: 425px) {
       body header ._header {
         text-align: center; } }
-  body header .main-menu .login ul li {
-    background-color: #2b3b68; }
-    body header .main-menu .login ul li a {
-      color: #ffffff; }
+  body header .main-menu .login {
+    display: flex;
+    justify-content: center; }
+    body header .main-menu .login ul li {
+      background-color: #2b3b68; }
+      body header .main-menu .login ul li a {
+        color: #ffffff; }
   body header ._search {
     margin-top: 5px; }
     body header ._search .uk-search {
@@ -73,6 +79,8 @@ body {
         body main .content-box > * {
           padding-left: 5px;
           padding-right: 5px; } }
+    body main .content-box > * {
+      padding: 10px; }
     body main .content-box .content.slider {
       margin-bottom: 30px; }
       body main .content-box .content.slider .uk-dotnav.uk-dotnav-contrast.uk-position-bottom.uk-flex-center li.uk-active a {
@@ -101,6 +109,8 @@ body {
     body main .content-box .content .uk-list .uk-button {
       margin: 10px 5px 5px 0;
       border-radius: 5px 5px 5px 5px; }
+    body main .content-box .archive > .uk-grid > * {
+      padding: 10px; }
     body main .content-box .about {
       margin: 20px 0 10px 0; }
     body main .content-box .calendar .day-week {
