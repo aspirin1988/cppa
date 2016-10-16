@@ -109,8 +109,17 @@ body {
     body main .content-box .content .uk-list .uk-button {
       margin: 10px 5px 5px 0;
       border-radius: 5px 5px 5px 5px; }
-    body main .content-box .archive > .uk-grid > * {
-      padding: 10px; }
+    body main .content-box .pagination {
+      margin: 20px; }
+    body main .content-box .archive {
+      margin: 0 0 10px 0; }
+      body main .content-box .archive .uk-article-title {
+        margin: 0 0 20px 0; }
+      body main .content-box .archive > .uk-grid > .content {
+        padding: 10px 10px 10px 35px; }
+        @media (max-width: 1024px) {
+          body main .content-box .archive > .uk-grid > .content {
+            padding: 10px 10px 10px 25px; } }
     body main .content-box .about {
       margin: 20px 0 10px 0; }
     body main .content-box .calendar .day-week {
@@ -136,6 +145,31 @@ body {
       width: 22px;
       padding: 17px;
       font-size: 29px; }
+    body main .content-box .services .img {
+      padding-top: 50%; }
+    body main .content-box .contacts .contacts-img-text {
+      border-right: 1px #444 solid;
+      margin: 0 10px 0 0; }
+      body main .content-box .contacts .contacts-img-text img {
+        width: 24px;
+        margin: 0 0 10px 0; }
+        @media (max-width: 768px) {
+          body main .content-box .contacts .contacts-img-text img {
+            margin: 0 0 10px 22px; } }
+        @media (max-width: 425px) {
+          body main .content-box .contacts .contacts-img-text img {
+            margin: 0 0 10px -7px; } }
+    body main .content-box .contacts .contacts-info-text address {
+      font-size: 24px;
+      text-align: center; }
+    body main .content-box .contacts .contacts-info-text p {
+      text-align: center; }
+    body main .content-box .contacts .contacts-info-text a {
+      color: #444;
+      font-size: 24px; }
+      @media (max-width: 425px) {
+        body main .content-box .contacts .contacts-info-text a {
+          font-size: 15px; } }
   body footer ._footer {
     background-color: #1c3766; }
     body footer ._footer .footer-menu h3 {

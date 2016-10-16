@@ -177,10 +177,20 @@ body{
         }
       }
 
+      .pagination{
+        margin: 20px;
+      }
       .archive {
+        margin: 0 0 10px 0;
+        .uk-article-title{
+          margin: 0 0 20px 0;
+        }
         & > .uk-grid {
-          & > * {
-            padding: 10px;
+          & > .content {
+            padding: 10px 10px 10px 35px;
+            @media (max-width: 1024px) {
+              padding: 10px 10px 10px 25px;
+            }
           }
         }
       }
@@ -221,6 +231,45 @@ body{
             width: 22px;
             padding: 17px;
             font-size: 29px;
+          }
+        }
+      }
+
+      .services{
+        .img{
+          padding-top: 50%;
+        }
+      }
+      .contacts{
+        .contacts-img-text{
+          border-right: 1px $text-color solid;
+          margin: 0 10px 0 0;
+          img{
+            width: 24px;
+            margin: 0 0 10px 0;
+            @media (max-width: 768px) {
+              margin: 0 0 10px 22px;
+            }
+
+            @media (max-width: 425px) {
+              margin: 0 0 10px -7px;
+            }
+          }
+        }
+        .contacts-info-text{
+          address{
+            font-size: 24px;
+            text-align: center;
+          }
+          p{
+            text-align: center;
+          }
+          a{
+            color:  $text-color;
+            font-size: 24px;
+            @media (max-width: 425px) {
+              font-size: 15px;
+            }
           }
         }
       }
