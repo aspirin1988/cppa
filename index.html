@@ -468,7 +468,12 @@
         var echo = document.getElementById('date');
         var now = new Date();
         var date='';
-        date=+now.getDate()+'.'+now.getMonth()+'.'+now.getFullYear();
+        var day= now.getDate();
+        var mon= now.getMonth();
+        if (mon<10){
+            mon='0'+mon;
+        }
+        date=+now.getDate()+'.'+mon+'.'+now.getFullYear();
         echo.innerHTML=date;
     },1000);
 

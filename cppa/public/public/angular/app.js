@@ -52,6 +52,56 @@ app.service('messageWeb',function () {
     };
 });
 
+app.service('Translate',function () {
+   this.RuEn = function (text) {
+
+       if(text) {
+           text=text.toLowerCase();
+           var translit_table = {
+               "а": "a", "ый": "iy", "ые": "ie",
+               "б": "b", "в": "v", "г": "g",
+               "д": "d", "е": "e", "ё": "yo",
+               "ж": "zh", "з": "z", "и": "i",
+               "й": "y", "к": "k", "л": "l",
+               "м": "m", "н": "n", "о": "o",
+               "п": "p", "р": "r", "с": "s",
+               "т": "t", "у": "u", "ф": "f",
+               "х": "kh", "ц": "ts", "ч": "ch",
+               "ш": "sh", "щ": "shch", "ь": "",
+               "ы": "y", "ъ": "", "э": "e",
+               "ю": "yu", "я": "ya", "йо": "yo",
+               "ї": "yi", "і": "i", "є": "ye",
+               "ґ": "g"
+           };
+
+       var ignor ={",": "-", ".": "-",
+               ":": "-", " ": "-", "<": "-",
+               ">": "-", "#": "-", "@": "-",
+               "?": "-", "*": "-", "%": "-",
+               "(": "-", ")": "-"};
+       var res ='';
+           for(var i=0;i<text.length;i++) {
+               if (ignor[text[i]]) {
+                   if (ignor[text[i-1]]!='-')
+                   res += ignor[text[i]];
+               }
+               else {
+                   if ((text[i].charCodeAt() >= 1072 && text[i].charCodeAt() <= 1103)) {
+                       res += translit_table[text[i]];
+                   }
+                   else {
+                       res += text[i];
+                   }
+               }
+           }
+           if(res[res.length-1]=='-')
+               res= res.substring(0, res.length - 1);
+            return res;
+       }
+       return '';
+   };
+});
+
 app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
@@ -152,10 +202,11 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload,messa
 
 });
 
-app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
+app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,Translate) {
 
     $scope.PageId=false;
     $scope.Page={};
+    $scope.newPage={};
 
     $scope.getPage = function () {
         $http({
@@ -187,6 +238,11 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) 
 
     $scope.$watch('PageId',function () {
         $scope.getPage();
+    });
+
+    $scope.$watch('newPage.name',function () {
+       $scope.newPage.slug = $scope.newPage.name;
+        $scope.newPage.slug=Translate.RuEn($scope.newPage.name);
     });
 
 

@@ -31,6 +31,12 @@ class AdminPageController extends Controller
         return response()->json(Page::where('id',$id)->first());
     }
 
+    public function newPage()
+    {
+        return view('admin.partials.pages.new');
+    }
+
+
     public function addPage()
     {
         $data=Page::create(['title'=>'','slug'=>'']);

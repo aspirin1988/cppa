@@ -25,13 +25,14 @@
                 <div class="uk-width-1-1 uk-margin-top">
                     <label class="uk-form-label">Ярлык</label>
                     <div class="uk-form-controls">
-                        <input type="text" ng-model="newGroup.name" placeholder="Ярлык" class="uk-width-1-1">
+                        <input type="text" ng-model="newGroup.slug" placeholder="Ярлык" class="uk-width-1-1">
                     </div>
                 </div>
+                [[page.content]]
                 <div class="uk-width-1-1 uk-margin-top">
                     <label class="uk-form-label">Контент</label>
                     <div class="uk-form-controls">
-                            <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
+                            <textarea ui-tinymce="tinymceOptions" ng-model="page.content"></textarea>
                     </div>
                 </div>
                 <div class="uk-form uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1 uk-accordion uk-margin-top" data-uk-accordion="{collapse: true, showfirst: true}">
