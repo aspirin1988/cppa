@@ -204,45 +204,113 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload,messa
 
 app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,Translate) {
 
-    $scope.PageId=false;
-    $scope.Page={};
-    $scope.newPage={};
+    $scope.PageId = false;
+    $scope.Page = {};
+    $scope.Pages = [];
+    $scope.newPage = {};
+    $scope.PageIsset = '';
 
     $scope.getPage = function () {
         $http({
-            method:"GET",
-            url:'/admin/pages/get/'+$scope.PageId
-        }).then(function success (response) {
-            if(response.data){
+            method: "GET",
+            url: '/admin/pages/get/' + $scope.PageId
+        }).then(function success(response) {
+            if (response.data) {
                 console.log(response.data);
-                $scope.Page=response.data;
+                $scope.Page = response.data;
             }
-        },function error (response) {});
+        }, function error(response) {
+        });
+    };
+
+    $scope.getPages=function () {
+        $http({
+            method: "GET",
+            url: '/admin/pages/get/'
+        }).then(function success(response) {
+            if (response.data) {
+                console.log(response.data);
+                $scope.Pages = response.data;
+            }
+        }, function error(response) {
+        });
+    };
+    $scope.getPages();
+
+    $scope.GoToEdit = function (id) {
+        location.href='/admin/pages/edit/'+id;
     };
 
     $scope.savePage = function (status) {
-        $scope.Page.status=status;
+        $scope.Page.status = status;
         $http({
-            method:"POST",
-            url:'/admin/pages/edit/'+$scope.PageId,
+            method: "POST",
+            url: '/admin/pages/edit/' + $scope.PageId,
             data: $scope.Page
-        }).then(function success (response) {
-            if(response.data){
+        }).then(function success(response) {
+            if (response.data) {
                 console.log(response.data);
                 messageWeb.messageSuccess('Данные странцы успешно обновлены!');
             }
-        },function error (response) {
+        }, function error(response) {
             messageWeb.messageError('Данные странцы не обновлены!');
         });
+    };
+
+    $scope.createPage = function () {
+        if (!$scope.PageIsset) {
+            $http({
+                method: "POST",
+                url: '/admin/pages/create/',
+                data: $scope.newPage
+            }).then(function success(response) {
+                if (response.data) {
+                    console.log(response.data);
+                    // $scope.PageIsset = response.data.res;
+                    messageWeb.messageSuccess('Страница успешно создана!');
+                    $scope.getPages();
+
+                }
+            }, function error(response) {
+            });
+        }
+        else {
+        messageWeb.messageError('Невозможно создать страницу с заданным именем!');
+        }
+};
+
+    $scope.ValidationSlug = function (val) {
+        console.log(val);
+        console.log($scope.PageIsset);
+        if (val) {
+            $http({
+                method: "POST",
+                url: '/admin/pages/vslug/',
+                data: {slug: val}
+            }).then(function success(response) {
+                if (response.data) {
+                    console.log(response.data);
+                    $scope.PageIsset = response.data.res;
+                }
+            }, function error(response) {
+            });
+        }
+        else {
+            $scope.PageIsset=undefined;
+        }
     };
 
     $scope.$watch('PageId',function () {
         $scope.getPage();
     });
 
-    $scope.$watch('newPage.name',function () {
-       $scope.newPage.slug = $scope.newPage.name;
-        $scope.newPage.slug=Translate.RuEn($scope.newPage.name);
+    $scope.$watch('newPage.title',function () {
+       $scope.newPage.slug = $scope.newPage.title;
+        $scope.newPage.slug=Translate.RuEn($scope.newPage.title);
+    });
+
+    $scope.$watch('newPage.slug',function () {
+        $scope.ValidationSlug($scope.newPage.slug);
     });
 
 

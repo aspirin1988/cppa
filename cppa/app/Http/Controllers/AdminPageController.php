@@ -36,11 +36,19 @@ class AdminPageController extends Controller
         return view('admin.partials.pages.new');
     }
 
-
-    public function addPage()
+    public function IssetPage(Request $request)
     {
-        $data=Page::create(['title'=>'','slug'=>'']);
-        return redirect('/admin/page/edit/' . $data->id);
+        $data=$request->all();
+        Page::where('slug',$data['slug'])->count();
+        return response()->json(['res'=>(Page::where('slug',$data['slug'])->count()>0? true:false)]);
+    }
+
+    public function addPage(Request $request)
+    {
+        $data = $request->all();
+        $data['date_end']=date('Y-m-d H:i:s');
+        $data=Page::create($data);
+        return response()->json($data); //redirect('/admin/page/edit/' . $data->id);
     }
 
     public function editPage($id)

@@ -42,7 +42,9 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/pages/get', 'AdminPageController@getPages');
     Route::get('/admin/pages/get/{id}', 'AdminPageController@getPage');
 
+    Route::post('/admin/pages/create/', 'AdminPageController@addPage');
     Route::post('/admin/pages/edit/{id}', 'AdminPageController@update');
+    Route::post('/admin/pages/vslug/', 'AdminPageController@IssetPage');
 
 
 

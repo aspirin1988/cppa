@@ -23,13 +23,13 @@
                         <div class="uk-width-1-1 uk-margin-top">
                             <label class="uk-form-label">Название</label>
                             <div class="uk-form-controls">
-                                <input type="text" ng-model="newPage.name" placeholder="Название" class="uk-width-1-1">
+                                <input type="text" ng-model="newPage.title" placeholder="Название" class="uk-width-1-1">
                             </div>
                         </div>
                         <div class="uk-width-1-1 uk-margin-top">
                             <label class="uk-form-label">Ярлык</label>
                             <div class="uk-form-controls">
-                                <input type="text" ng-model="newPage.slug" placeholder="Ярлык" class="uk-width-1-1">
+                                <input  type="text" ng-model="newPage.slug" placeholder="Ярлык" class="uk-width-1-1" ng-class="{'uk-form-danger':PageIsset===true,'uk-form-success':PageIsset===false}">
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                                         <button class="uk-button uk-button-danger" ng-click="clearUserGroup()">
                                             <i class="uk-icon-close"></i>
                                         </button>
-                                        <button class="uk-button uk-button-success" ng-click="addUserGroup()" >
+                                        <button class="uk-button uk-button-success" ng-click="createPage()" >
                                             <i class="uk-icon-save"></i>
                                         </button>
                                     </div>
@@ -54,6 +54,32 @@
                         </fieldset>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="uk-grid">
+            <div class="uk-width-1-1">
+                <table class="uk-table uk-table-hover uk-table-striped">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Название</td>
+                            <td>Ярлык</td>
+                            <td>Действия</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(key,val) in Pages">
+                            <td>[[val.id]]</td>
+                            <td>[[val.title]]</td>
+                            <td>[[val.slug]]</td>
+                            <td>
+                                <button class="uk-button uk-button-success" ng-click="GoToEdit(val.id)">
+                                    <i class="uk-icon-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
