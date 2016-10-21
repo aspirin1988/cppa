@@ -242,7 +242,7 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
     };
 
     $scope.savePage = function (status) {
-        $scope.Page.status = status;
+        $scope.Page.public = status;
         $http({
             method: "POST",
             url: '/admin/pages/edit/' + $scope.PageId,
@@ -313,7 +313,16 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
         $scope.ValidationSlug($scope.newPage.slug);
     });
 
+/*
+    $scope.$watch('Page.title',function () {
+        $scope.Page.slug = $scope.Page.title;
+        $scope.Page.slug=Translate.RuEn($scope.Page.title);
+    });
 
+    $scope.$watch('Page.slug',function () {
+        $scope.ValidationSlug($scope.Page.slug);
+    });
+*/
     $scope.tinymceOptions = {
         plugins: 'link image code',
         toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'

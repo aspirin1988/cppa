@@ -14,4 +14,11 @@ class Page extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function addImage($data)
+    {
+        $data['patent_id']=$this->id;
+        $data['patent_type']='pages';
+        ImageGallery::create($data);
+    }
 }

@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getUserGroup()
+    {
+        return UserGroup::where('id',$this->user_group)->first();
+
+    }
 }

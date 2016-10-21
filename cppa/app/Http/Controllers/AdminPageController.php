@@ -21,6 +21,21 @@ class AdminPageController extends Controller
         return view('admin.partials.pages.edit',['id'=>$id]);
     }
 
+    public function update($id, Request $request)
+    {
+        $data=$request->all();
+        unset($data['id']);
+
+        return response()->json(Page::where('id',$id)->update($data));
+    }
+
+    public function addImage($id,Request $request)
+    {
+        $data=$request->all();
+        $page=Page::where('id',$id)->first();
+        return response()->json($page->addImage($data));
+    }
+
     public function getPages()
     {
         return response()->json(Page::get());

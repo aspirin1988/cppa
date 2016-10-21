@@ -12,7 +12,7 @@
         <div class="avatar-img"></div>
             <div class="avatar-caption">
                 <h3>{{Auth::user()->name}}</h3>
-                <h4>{{Auth::user()->user_group}}</h4>
+                <h4>{{Auth::user()->getUserGroup()->name}}</h4>
                 <h5><span class="online-status"></span>online</h5>
             </div>
     </div>
@@ -27,7 +27,7 @@
             <a href="#"><i class="uk-icon uk-icon-book"></i>Страницы</a>
             <ul class="uk-nav-sub">
                 <li><a href="/admin/pages"><i class="uk-icon uk-icon-list"></i>Список страниц</a></li>
-                <li><a href="/admin/page/new"><i class="uk-icon uk-icon-plus"></i>Добавить</a></li>
+                <li><a href="/admin/pages/new"><i class="uk-icon uk-icon-plus"></i>Добавить</a></li>
             </ul>
         </li>
         <li class="uk-parent">

@@ -19,20 +19,19 @@
                 <div class="uk-width-1-1 uk-margin-top">
                     <label class="uk-form-label">Название</label>
                     <div class="uk-form-controls">
-                        <input type="text" ng-model="newGroup.name" placeholder="Название" class="uk-width-1-1">
+                        <input type="text" ng-model="Page.title" placeholder="Название" class="uk-width-1-1">
                     </div>
                 </div>
                 <div class="uk-width-1-1 uk-margin-top">
                     <label class="uk-form-label">Ярлык</label>
                     <div class="uk-form-controls">
-                        <input type="text" ng-model="newGroup.slug" placeholder="Ярлык" class="uk-width-1-1">
+                        <input type="text" ng-model="Page.slug" placeholder="Ярлык" class="uk-width-1-1" ng-class="{'uk-form-danger':PageIsset===true,'uk-form-success':PageIsset===false}">
                     </div>
                 </div>
-                [[page.content]]
                 <div class="uk-width-1-1 uk-margin-top">
                     <label class="uk-form-label">Контент</label>
                     <div class="uk-form-controls">
-                            <textarea ui-tinymce="tinymceOptions" ng-model="page.content"></textarea>
+                            <textarea ui-tinymce="tinymceOptions" ng-model="Page.content"></textarea>
                     </div>
                 </div>
                 <div class="uk-form uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1 uk-accordion uk-margin-top" data-uk-accordion="{collapse: true, showfirst: true}">
