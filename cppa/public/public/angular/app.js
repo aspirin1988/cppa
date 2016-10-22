@@ -202,6 +202,101 @@ app.controller('user_groupsCTRL',function ($scope, $http, $sce ,fileUpload,messa
 
 });
 
+app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
+
+    $scope.Users=[];
+    $scope.newUser={};
+    $scope.CurrentUser=false;
+
+    var modal_edit=UIkit.modal('#edit-modal');
+
+    var modal_remove=UIkit.modal('#remove-modal');
+
+    $scope.getUsers= function(){
+        $http({
+            method:'GET',
+            url:'/admin/users/getAll'
+        }).then(function success(response) {
+            console.log(response);
+            $scope.Users= response.data;
+        }, function error(response) {});
+    };
+    $scope.getUsers();
+
+    $scope.addUser = function () {
+        $http({
+            method:'POST',
+            url:'/admin/users/add',
+            data:$scope.newUser
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.getUsers();
+                $scope.clearUser();
+                messageWeb.messageSuccess('Уровень доступа был успешно добавлен!');
+            }
+        }, function error(response) {
+            messageWeb.messageError('Уровень доступа не был добавлен!');
+        });
+    };
+
+    $scope.openEditUser = function (val) {
+        modal_edit.show();
+        $scope.CurrentUser=val;
+    };
+
+    $scope.saveUser = function () {
+        if($scope.CurrentUser){
+            $http({
+                method:'POST',
+                url:'/admin/users/save',
+                data:$scope.CurrentUser
+            }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentUser = false;
+                    modal_edit.hide();
+                    messageWeb.messageSuccess('Уровень доступа был успешно сохранен!');
+                }
+            }, function error(response) {
+                messageWeb.messageError('Уровень доступа не был сохранен!');
+            });
+        }
+    };
+
+    $scope.openRemoveUser = function (val) {
+        modal_remove.show();
+        $scope.CurrentUser=val;
+    };
+
+    $scope.closeRemoveUser = function (val) {
+        modal_remove.hide();
+        $scope.CurrentUser=false;
+    };
+
+    $scope.RemoveUser = function () {
+        if($scope.CurrentUser){
+            $http({
+                method:'GET',
+                url:'/admin/users/remove/'+$scope.CurrentUser.id
+        }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentUser = false;
+                    $scope.getUsers();
+                    modal_remove.hide();
+                    messageWeb.messageSuccess('Уровень доступа был успешно удален!');
+                }
+            }, function error(response) {
+                messageWeb.messageError('Уровень доступа не был удален!');
+            });
+        }
+    };
+
+    $scope.clearUser = function () {
+      $scope.newUser={};
+    }
+
+
+});
+
 app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,Translate) {
 
     $scope.PageId = false;
@@ -209,6 +304,9 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
     $scope.Pages = [];
     $scope.newPage = {};
     $scope.PageIsset = '';
+    $scope.CurrentPage=false;
+
+    var modal_remove=UIkit.modal('#remove-modal');
 
     $scope.getPage = function () {
         $http({
@@ -216,7 +314,7 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
             url: '/admin/pages/get/' + $scope.PageId
         }).then(function success(response) {
             if (response.data) {
-                console.log(response.data);
+                // console.log(response.data);
                 $scope.Page = response.data;
             }
         }, function error(response) {
@@ -229,7 +327,7 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
             url: '/admin/pages/get/'
         }).then(function success(response) {
             if (response.data) {
-                console.log(response.data);
+                // console.log(response.data);
                 $scope.Pages = response.data;
             }
         }, function error(response) {
@@ -249,7 +347,7 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
             data: $scope.Page
         }).then(function success(response) {
             if (response.data) {
-                console.log(response.data);
+                // console.log(response.data);
                 messageWeb.messageSuccess('Данные странцы успешно обновлены!');
             }
         }, function error(response) {
@@ -265,7 +363,7 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
                 data: $scope.newPage
             }).then(function success(response) {
                 if (response.data) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     // $scope.PageIsset = response.data.res;
                     messageWeb.messageSuccess('Страница успешно создана!');
                     $scope.getPages();
@@ -280,8 +378,8 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
 };
 
     $scope.ValidationSlug = function (val) {
-        console.log(val);
-        console.log($scope.PageIsset);
+        // console.log(val);
+        // console.log($scope.PageIsset);
         if (val) {
             $http({
                 method: "POST",
@@ -289,7 +387,7 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
                 data: {slug: val}
             }).then(function success(response) {
                 if (response.data) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     $scope.PageIsset = response.data.res;
                 }
             }, function error(response) {
@@ -313,6 +411,34 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
         $scope.ValidationSlug($scope.newPage.slug);
     });
 
+    $scope.openRemovePage = function (val) {
+        modal_remove.show();
+        $scope.CurrentPage=val;
+    };
+
+    $scope.closeRemovePage = function (val) {
+        modal_remove.hide();
+        $scope.CurrentPage=false;
+    };
+
+    $scope.RemovePage = function () {
+        if($scope.CurrentPage){
+            $http({
+                method:'GET',
+                url:'/admin/pages/remove/'+$scope.CurrentPage.id
+            }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentPage = false;
+                    $scope.getPages();
+                    modal_remove.hide();
+                    messageWeb.messageSuccess('Страница была успешно удален!');
+                }
+            }, function error(response) {
+                messageWeb.messageError('Страница не может быть удален!');
+            });
+        }
+    };
+
 /*
     $scope.$watch('Page.title',function () {
         $scope.Page.slug = $scope.Page.title;
@@ -323,9 +449,19 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
         $scope.ValidationSlug($scope.Page.slug);
     });
 */
+
     $scope.tinymceOptions = {
         plugins: 'link image code',
-        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code mybutton',
+        setup: function (editor) {
+            editor.addButton('mybutton', {
+                text: 'My button',
+                icon: false,
+                onclick: function () {
+                    editor.insertContent('&nbsp;<b>It\'s my button!</b>&nbsp;');
+                }
+            });
+        }
     };
 
 });

@@ -29,6 +29,11 @@ class AdminPageController extends Controller
         return response()->json(Page::where('id',$id)->update($data));
     }
 
+    public function remove($id)
+    {
+        return response()->json(Page::where('id',$id)->delete());
+    }
+
     public function addImage($id,Request $request)
     {
         $data=$request->all();
@@ -38,7 +43,7 @@ class AdminPageController extends Controller
 
     public function getPages()
     {
-        return response()->json(Page::get());
+        return response()->json(Page::select('id','title','slug')->get());
     }
 
     public function getPage($id)

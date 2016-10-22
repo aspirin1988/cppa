@@ -38,7 +38,7 @@
             </ul>
         </li>
         <li><a href="#"><i class="uk-icon uk-icon-image "></i>Галерея</a></li>
-        <li><a href="#"><i class="uk-icon uk-icon-users "></i>Пользователи</a></li>
+        <li><a href="/admin/users/"><i class="uk-icon uk-icon-users "></i>Пользователи</a></li>
         <li class="uk-parent">
             <a href="#"><i class="uk-icon uk-icon-cog "></i>Настройки</a>
             <ul class="uk-nav-sub">

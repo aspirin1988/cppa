@@ -8,15 +8,15 @@
     <title>Главная страница</title>
     <meta name="description" content="This main page">
 
-    <link rel="stylesheet" href="/public/css/uikit.gradient.min.css">
-    <link rel="stylesheet" href="/public/css/app.css">
-    <link rel="stylesheet" href="/public/css/components/slider.min.css">
-    <link rel="stylesheet" href="/public/css/components/slideshow.min.css">
-    <link rel="stylesheet" href="/public/css/components/slidenav.min.css">
-    <link rel="stylesheet" href="/public/css/components/dotnav.min.css">
-    <link rel="stylesheet" href="/public/css/components/slidenav.almost-flat.min.css">
-    <link rel="stylesheet" href="/public/css/components/search.min.css">
-    <link rel="stylesheet" href="/public/css/components/form-select.css">
+    <link rel="stylesheet" href="/css/uikit.gradient.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/components/slider.min.css">
+    <link rel="stylesheet" href="/css/components/slideshow.min.css">
+    <link rel="stylesheet" href="/css/components/slidenav.min.css">
+    <link rel="stylesheet" href="/css/components/dotnav.min.css">
+    <link rel="stylesheet" href="/css/components/slidenav.almost-flat.min.css">
+    <link rel="stylesheet" href="/css/components/search.min.css">
+    <link rel="stylesheet" href="/css/components/form-select.css">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,7 +38,9 @@
         <div class="uk-container uk-container-center">
             <div class="uk-grid">
                 <div class=" uk-width-small-1-1 uk-width-medium-1-3 uk-width-large-1-3">
-                    <img src="/public/img/cppa_logo_nazvanie_slogan_horizontal_white.png" alt="" class="_logo">
+                    <a href="/">
+                        <img src="/img/cppa_logo_nazvanie_slogan_horizontal_white.png" alt="" class="_logo">
+                    </a>
                 </div>
                 <div class=" uk-width-small-1-1 uk-width-medium-1-3 uk-width-large-1-3 uk-hidden-small">
                     <div class="time-and-date">
@@ -49,9 +51,9 @@
                 <div class=" uk-width-small-1-1 uk-width-medium-1-3 uk-width-large-1-3">
                     <div class="_contacts">
                         <ul class="uk-list">
-                            <li><a href="tel:+77777777777">+7 777 777 77 77</a></li>
-                            <li><a href="tel:+77777777777">+7 777 777 77 77</a></li>
-                            <li><a href="mailto:test@mail.ru">test@mail.ru</a></li>
+                            <li><a href="tel:+77071668315">+7 707 166 83 15</a></li>
+                            <li><a href="tel:87273528682">8 727 352 86 82</a></li>
+                            <li><a href="mailto:director@cppa.kz">director@cppa.kz</a></li>
                         </ul>
                     </div>
                 </div>
@@ -63,7 +65,7 @@
             <div class="uk-width-medium-7-10 uk-width-large-5-10">
                 <nav class="uk-navbar menu">
                     <ul class="uk-navbar-nav">
-                        <li class="uk-active"><a href="">Главная</a></li>
+                        <li class="uk-active"><a href="/">Главная</a></li>
                         <li><a href="">О нас</a></li>
                         <li><a href="">О нас</a></li>
                         <li><a href="">О нас</a></li>
@@ -92,8 +94,8 @@
             <div class=" uk-width-medium-3-10 uk-width-large-2-10">
                 <nav class="uk-navbar login">
                     <ul class="uk-navbar-nav">
-                        <li><a href="">Войти</a></li>
-                        <li><a href="">Регистрация</a></li>
+                        <li><a href="/login">Войти</a></li>
+                        <li><a href="/register">Регистрация</a></li>
                     </ul>
                 </nav>
             </div>
@@ -138,9 +140,6 @@
 <body>
 <main>
     @yield('content')
-
-
-
 </main>
 <footer>
     <div class="_footer">
@@ -175,14 +174,14 @@
 </footer>
 </body>
 
-<script src="public/js/jquery-3.1.0.min.js" ></script>
-<script src="public/js/uikit.min.js" ></script>
-<script src="public/js/components/slider.min.js" ></script>
-<script src="public/js/components/slideshow.min.js" ></script>
-<script src="public/js/components/slideset.js" ></script>
-<script src="public/js/components/sticky.js" ></script>
-<script src="public/js/components/form-select.js" ></script>
-<script src="public/js/validation.js" ></script>
+<script src="/js/jquery-3.1.0.min.js" ></script>
+<script src="/js/uikit.min.js" ></script>
+<script src="/js/components/slider.min.js" ></script>
+<script src="/js/components/slideshow.min.js" ></script>
+<script src="/js/components/slideset.js" ></script>
+<script src="/js/components/sticky.js" ></script>
+<script src="/js/components/form-select.js" ></script>
+<script src="/js/validation.js" ></script>
 
 <script>
     setInterval(function () {
@@ -198,11 +197,12 @@
         var now = new Date();
         var date='';
         var day= now.getDate();
+        var monthstr=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
         var mon= now.getMonth();
-        if (mon<10){
+        /*if (mon<10){
             mon='0'+mon;
-        }
-        date=+now.getDate()+'.'+mon+'.'+now.getFullYear();
+        }*/
+        date=+now.getDate()+' '+monthstr[mon]+' '+now.getFullYear();
         echo.innerHTML=date;
     },1000);
 
