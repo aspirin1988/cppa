@@ -466,3 +466,21 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
 
 });
 
+app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
+
+    $scope.Images=[];
+
+    $scope.getGalleryAll =function (page) {
+        $http({
+            method:'GET',
+            url:'/admin/gallery/img/get/page/'+page
+        }).then(function success(response) {
+            if(response.data) {
+                $scope.Images = response.data.images;
+                $scope.Pages = response.data.pages;
+            }
+        }, function error(response) {
+        });
+    }
+
+});

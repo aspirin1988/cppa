@@ -53,6 +53,9 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::post('/admin/pages/edit/{id}', 'AdminPageController@update');
     Route::post('/admin/pages/vslug/', 'AdminPageController@IssetPage');
 
+    // View & edit Gallery
+    Route::get('/admin/gallery/img/', 'ImageGalleryController@index');
+    Route::get('/admin/gallery/img/get/page/{page}', 'ImageGalleryController@getPage');
 
 
 });

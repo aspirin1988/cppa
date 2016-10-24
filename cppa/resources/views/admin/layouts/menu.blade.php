@@ -37,13 +37,13 @@
                 <li><a href="#"><i class="uk-icon uk-icon-plus"></i>Добавить</a></li>
             </ul>
         </li>
-        <li><a href="#"><i class="uk-icon uk-icon-image "></i>Галерея</a></li>
+        <li><a href="/admin/gallery/img/"><i class="uk-icon uk-icon-image "></i>Галерея</a></li>
         <li><a href="/admin/users/"><i class="uk-icon uk-icon-users "></i>Пользователи</a></li>
         <li class="uk-parent">
             <a href="#"><i class="uk-icon uk-icon-cog "></i>Настройки</a>
             <ul class="uk-nav-sub">
                 <li><a href="#"><i class="uk-icon uk-icon-list"></i>Сайта</a></li>
-                <li><a href="/admin/user_groups"><i class="uk-icon uk-icon-list"></i>Уровней доступа</a></li>
+                <li><a href="/admin/user_groups/"><i class="uk-icon uk-icon-list"></i>Уровней доступа</a></li>
             </ul>
         </li>
     </ul>
