@@ -26,4 +26,20 @@ class ImageGalleryController extends Controller
         }
         return response()->json(['images'=>$data,'pages'=>$res]);
     }
+
+    public function UploadImage(Request $request)
+    {
+
+
+        $data=$request->all();
+//        print_r($data->getClientOriginalName());
+//        print_r($file[0]);
+//        $data=request()->file('file');
+        print_r($data);
+//        if (isset($file['file']))
+//        {
+//            $file=$file['file'];
+//        }
+//        return response()->json([$file,$data,$request->file('files'),$file->getClientOriginalName()]);
+    }
 }

@@ -23,8 +23,15 @@ app.service('fileUpload', ['$http', function ($http) {
 
     this.uploadFileToUrl = function(file, uploadUrl, call){
         var fd = new FormData();
-        fd.append('file', file);
+        if (file.length>1) {
+            for (var i = 0; i < file.length; i++) {
+                fd.append('file[]', file[i]);
 
+            }
+        }
+        else{
+            fd.append('file[]', file);
+        }
         var result=false;
 
         return $http({
@@ -469,6 +476,54 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
 app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
 
     $scope.Images=[];
+    $scope.myFile=[];
+    $scope.tempFile=[];
+    $scope.temp=[];
+
+    $scope.readURL=function (file,id) {
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imagePrew' + id).css('background-image', "url('" + e.target.result + "')");
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    $scope.remoweImage = function(key) {
+        var tmp_files = [];
+        for (var i = 0; i <= $scope.myFile.length - 1; i++) {
+            tmp_files.push($scope.myFile[i]);
+        }
+        tmp_files.splice(key, 1);
+        $scope.myFile = tmp_files;
+        if (!$scope.myFile.length) {
+            $scope.tempFile = [];
+        }
+    };
+
+    $scope.$watch('tempFile', function () {
+
+        $scope.Upload = false;
+
+        if (!$scope.myFile.length) {
+            $scope.myFile = $scope.tempFile;
+        }
+        else {
+            var tmp_files = [];
+            for (var i = 0; i <= $scope.myFile.length - 1; i++) {
+                tmp_files.push($scope.myFile[i]);
+            }
+            for (i = 0; i <= $scope.tempFile.length - 1; i++) {
+                var isset = find(tmp_files, $scope.tempFile[i]);
+                if (!isset) {
+                    tmp_files.push($scope.tempFile[i]);
+                }
+            }
+            $scope.myFile=tmp_files;
+        }
+    });
+
 
     $scope.getGalleryAll =function (page) {
         $http({
@@ -481,6 +536,14 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
             }
         }, function error(response) {
         });
+    };
+
+    $scope.uploadFile=function () {
+        var file = $scope.myFile;
+        var uploadUrl = '/admin/gallery/img/upload/';
+            fileUpload.uploadFileToUrl(file, uploadUrl, function (e) {
+                console.log(e);
+            });
     }
 
 });

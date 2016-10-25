@@ -149,6 +149,40 @@ main{
   @media (max-width: 768px) {
     padding-left: 10px;
   }
+  .upload-box{
+    .file_upload {
+      position: relative;
+      overflow: hidden;
+      margin: 0px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      line-height: 1;
+      text-align: center;
+      padding: 20px;
+      width: 100%;
+      background: #fff;
+      &>input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 54px;
+        opacity: 0;
+        cursor: pointer;
+        padding: 0;
+      }
+    }
+    .uk-grid{
+      figure{
+        width: 100%;
+      }
+    }
+    .imagePrew{
+      width: 100%;
+      padding-top: 55%;
+      background-position: 50% 50%;
+      background-size: cover;
+    }
+  }
   .uk-accordion-title{
     margin-bottom: 0 !important;
     box-sizing: border-box;
