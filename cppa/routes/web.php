@@ -57,7 +57,7 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/gallery/img/', 'ImageGalleryController@index');
     Route::get('/admin/gallery/img/get/page/{page}', 'ImageGalleryController@getPage');
 
-    Route::post('/admin/gallery/img/upload/', 'ImageGalleryController@UploadImage');
+    Route::post('/admin/gallery/img/upload/{id}/{to}', 'ImageGalleryController@UploadImage');
 
 
 });

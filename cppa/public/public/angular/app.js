@@ -25,12 +25,12 @@ app.service('fileUpload', ['$http', function ($http) {
         var fd = new FormData();
         if (file.length>1) {
             for (var i = 0; i < file.length; i++) {
-                fd.append('file[]', file[i]);
+                fd.append('files[]', file[i]);
 
             }
         }
         else{
-            fd.append('file[]', file);
+            fd.append('file[]', file[0]);
         }
         var result=false;
 
@@ -540,7 +540,7 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
 
     $scope.uploadFile=function () {
         var file = $scope.myFile;
-        var uploadUrl = '/admin/gallery/img/upload/';
+        var uploadUrl = '/admin/gallery/img/upload/0/gallery';
             fileUpload.uploadFileToUrl(file, uploadUrl, function (e) {
                 console.log(e);
             });
