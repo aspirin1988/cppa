@@ -56,8 +56,10 @@ Route::group(['middleware' => 'admin.side'], function() {
     // View & edit Gallery
     Route::get('/admin/gallery/img/', 'ImageGalleryController@index');
     Route::get('/admin/gallery/img/get/page/{page}', 'ImageGalleryController@getPage');
+    Route::get('/admin/gallery/img/remove/{id}', 'ImageGalleryController@remove');
 
     Route::post('/admin/gallery/img/upload/{id}/{to}', 'ImageGalleryController@UploadImage');
+    Route::post('/admin/gallery/img/edit/{id}', 'ImageGalleryController@edit');
 
 
 });

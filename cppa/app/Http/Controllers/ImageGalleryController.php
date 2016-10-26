@@ -57,6 +57,27 @@ class ImageGalleryController extends Controller
         return response()->json($res);
     }
 
+    public function remove($id)
+    {
+        $data=ImageGallery::where('id',$id)->first();
+        $count=ImageGallery::where('url',$data->url)->count();
+        if ($count==1){
+            $res['file1']=Storage::disk('uploads')->delete($data->path);
+            $res['file2']=Storage::disk('uploads')->delete($data->path_small);
+            $res['file3']=Storage::disk('uploads')->delete($data->path_middle);
+        }
+        $res['result']=ImageGallery::where('id',$id)->delete();
+        return response()->json(['res'=>$res,'count'=>$count]);
+    }
+
+    public function edit($id, Request $request)
+    {
+        $data=$request->all();
+        unset($data['id']);
+        $res=ImageGallery::where('id',$id)->update($data);
+        return response()->json($res);
+    }
+
     function uploadPrivate($id, $to, $file) {
         $fileName = $file->getClientOriginalName();
         $filePath = '/sitefiles/'. $to .'/'. $id . '/' . $fileName;
@@ -92,6 +113,9 @@ class ImageGalleryController extends Controller
         $returnID = ImageGallery::create([
             'parent_id' => $id,
             'parent_type' => $to,
+            'path'=>$filePath,
+            'path_middle'=>$filePathThumbnail1,
+            'path_small'=>$filePathThumbnail2,
             'url' => '/uploads' . $filePath,
             'url_middle' => '/uploads' .$filePathThumbnail1,
             'url_small' => '/uploads' .$filePathThumbnail2,

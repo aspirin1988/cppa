@@ -87,12 +87,18 @@
                                 <img src="[[val.url_small]]" alt="">
                             </a>
                         </td>
-                        <td>[[val.slug]]</td>
                         <td>
-                            <button class="uk-button uk-button-success" ng-click="GoToEdit(val.id)">
+                            <div class="uk-grid">
+                                <div class="uk-width-1-1">Title:[[val.title]]</div>
+                                <div class="uk-width-1-1">Alt:[[val.alt]]</div>
+                                <div class="uk-width-1-1">Описание:[[val.description]]</div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="uk-button uk-button-success" ng-click="openEditImage(val)">
                                 <i class="uk-icon-edit"></i>
                             </button>
-                            <button class="uk-button uk-button-danger" ng-click="openRemovePage(val)">
+                            <button class="uk-button uk-button-danger" ng-click="openRemoveImage(val)">
                                 <i class="uk-icon-remove"></i>
                             </button>
                         </td>
@@ -108,16 +114,8 @@
         </div>
     </div>
 
-    <div id="remove-modal" class="uk-modal">
-        <div class="uk-modal-dialog">
-            <a class="uk-modal-close uk-close"></a>
-            <h2>Вы действительно хотите удалить !</h2>
-            <div class="uk-container uk-container-center uk-flex uk-flex-space-around" >
-                <button class="uk-button uk-button-danger" ng-click="RemovePage()" >Yes</button>
-                <button class="uk-button uk-button-success uk-modal-close" ng-click="closeRemovePage()">No</button>
-            </div>
-        </div>
-    </div>
+    @include('admin.partials.gallery.edit_modal')
+    @include('admin.partials.gallery.remove_modal')
 
 </section>
 @endsection

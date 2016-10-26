@@ -385,8 +385,6 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
 };
 
     $scope.ValidationSlug = function (val) {
-        // console.log(val);
-        // console.log($scope.PageIsset);
         if (val) {
             $http({
                 method: "POST",
@@ -446,16 +444,6 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
         }
     };
 
-/*
-    $scope.$watch('Page.title',function () {
-        $scope.Page.slug = $scope.Page.title;
-        $scope.Page.slug=Translate.RuEn($scope.Page.title);
-    });
-
-    $scope.$watch('Page.slug',function () {
-        $scope.ValidationSlug($scope.Page.slug);
-    });
-*/
 
     $scope.tinymceOptions = {
         plugins: 'link image code',
@@ -479,8 +467,13 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
     $scope.myFile=[];
     $scope.tempFile=[];
     $scope.temp=[];
+    $scope.CurrentImage=false;
     $scope.CurrentPage=0;
     $scope.ErrorUpload=false;
+
+    var modal_edit=UIkit.modal('#edit-modal');
+
+    var modal_remove=UIkit.modal('#remove-modal');
 
     //Чтение чайта до загрузки его preview
     $scope.readURL=function (file,id) {
@@ -531,6 +524,39 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
         }
     };
 
+    $scope.openEditImage = function (val) {
+        modal_edit.show();
+        $scope.CurrentImage=val;
+    };
+
+    $scope.RemoveImage = function () {
+        if($scope.CurrentImage){
+            $http({
+                method:'GET',
+                url:'/admin/gallery/img/remove/'+$scope.CurrentImage.id
+            }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentImage = false;
+                    $scope.getGalleryAll($scope.CurrentPage);
+                    modal_remove.hide();
+                    messageWeb.messageSuccess('Изображение было успешно удалено!');
+                }
+            }, function error(response) {
+                messageWeb.messageError('Изображение не может быть удалено!');
+            });
+        }
+    };
+
+    $scope.openRemoveImage = function (val) {
+        modal_remove.show();
+        $scope.CurrentImage=val;
+    };
+
+    $scope.closeRemoveImage = function () {
+        modal_remove.hide();
+        $scope.CurrentGroup=false;
+    };
+
 
     $scope.getGalleryAll =function (page) {
         $http({
@@ -563,10 +589,26 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
                     $scope.getGalleryAll($scope.CurrentPage);
                 }
             });
-    }
+    };
 
     $scope.selectPage =function (page) {
         $scope.CurrentPage = page;
+    };
+    
+    $scope.saveImage =function () {
+        $http({
+            method: "POST",
+            url: '/admin/gallery/img/edit/' + $scope.CurrentImage.id,
+            data: $scope.CurrentImage
+        }).then(function success(response) {
+            if (response.data) {
+                // console.log(response.data);
+                messageWeb.messageSuccess('Данные странцы успешно обновлены!');
+                modal_remove.hide();
+            }
+        }, function error(response) {
+            messageWeb.messageError('Данные странцы не обновлены!');
+        });
     }
 
 });
