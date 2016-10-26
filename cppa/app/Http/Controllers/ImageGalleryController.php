@@ -22,8 +22,8 @@ class ImageGalleryController extends Controller
         $limit=15;
         $all=ImageGallery::count();
         $pages=ceil($all/$limit);
-        $offset=$limit*$pages;
-        $data=ImageGallery::offset($offset)->limit($limit)->get();
+        $offset=$limit*$page;
+        $data=ImageGallery::limit($limit)->offset($offset)->get();
         $res=[];
         for($i=0; $i<$pages; $i++){
             $res[]=$i;
@@ -48,22 +48,13 @@ class ImageGalleryController extends Controller
         $res=false;
         if ($plural){
             foreach ($data as $item)  {
-                $res[]=$this->uploadPrivate($id, $to, $item);
+                $res[]=($this->uploadPrivate($id, $to, $item)? true : false);
             }
         }
         else{
-            $res[]=$this->uploadPrivate($id, $to, $data);
+            $res[]=($this->uploadPrivate($id, $to, $data)? true : false);
         }
         return response()->json($res);
-//        print_r($data->getClientOriginalName());
-//        print_r($file[0]);
-//        $data=request()->file('file');
-        print_r($data);
-//        if (isset($file['file']))
-//        {
-//            $file=$file['file'];
-//        }
-//        return response()->json([$file,$data,$request->file('files'),$file->getClientOriginalName()]);
     }
 
     function uploadPrivate($id, $to, $file) {

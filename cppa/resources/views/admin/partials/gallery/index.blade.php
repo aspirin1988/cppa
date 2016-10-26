@@ -65,6 +65,11 @@
         </div>
         <div class="uk-grid">
             <div class="uk-width-1-1">
+                <ul class="uk-pagination">
+                    <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span ng-click="selectPage(val)">[[val+1]]</span></li>
+                </ul>
+            </div>
+            <div class="uk-width-1-1">
                 <table class="uk-table uk-table-hover uk-table-striped">
                     <thead>
                     <tr>
@@ -75,9 +80,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="(key,val) in Pages">
+                    <tr ng-repeat="(key,val) in Images">
                         <td>[[val.id]]</td>
-                        <td>[[val.title]]</td>
+                        <td>
+                            <a href="[[val.url]]" data-uk-lightbox="{group:'group1'}" title="[[val.title]]">
+                                <img src="[[val.url_small]]" alt="">
+                            </a>
+                        </td>
                         <td>[[val.slug]]</td>
                         <td>
                             <button class="uk-button uk-button-success" ng-click="GoToEdit(val.id)">
@@ -91,6 +100,11 @@
                     </tbody>
                 </table>
             </div>
+            <div class="uk-width-1-1">
+            <ul class="uk-pagination">
+                <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span ng-click="selectPage(val)">[[val+1]]</span></li>
+            </ul>
+        </div>
         </div>
     </div>
 

@@ -479,7 +479,10 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
     $scope.myFile=[];
     $scope.tempFile=[];
     $scope.temp=[];
+    $scope.CurrentPage=0;
+    $scope.ErrorUpload=false;
 
+    //Чтение чайта до загрузки его preview
     $scope.readURL=function (file,id) {
         if (file) {
             var reader = new FileReader();
@@ -487,18 +490,6 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
                 $('#imagePrew' + id).css('background-image', "url('" + e.target.result + "')");
             };
             reader.readAsDataURL(file);
-        }
-    };
-
-    $scope.remoweImage = function(key) {
-        var tmp_files = [];
-        for (var i = 0; i <= $scope.myFile.length - 1; i++) {
-            tmp_files.push($scope.myFile[i]);
-        }
-        tmp_files.splice(key, 1);
-        $scope.myFile = tmp_files;
-        if (!$scope.myFile.length) {
-            $scope.tempFile = [];
         }
     };
 
@@ -524,6 +515,22 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
         }
     });
 
+    $scope.$watch('CurrentPage', function () {
+        $scope.getGalleryAll($scope.CurrentPage);
+    });
+
+    $scope.remoweImage = function(key) {
+        var tmp_files = [];
+        for (var i = 0; i <= $scope.myFile.length - 1; i++) {
+            tmp_files.push($scope.myFile[i]);
+        }
+        tmp_files.splice(key, 1);
+        $scope.myFile = tmp_files;
+        if (!$scope.myFile.length) {
+            $scope.tempFile = [];
+        }
+    };
+
 
     $scope.getGalleryAll =function (page) {
         $http({
@@ -542,8 +549,24 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
         var file = $scope.myFile;
         var uploadUrl = '/admin/gallery/img/upload/0/gallery';
             fileUpload.uploadFileToUrl(file, uploadUrl, function (e) {
-                console.log(e);
+                if (e){
+                    for(var i=0; i<e.length; i++){
+                        if (!e[i]) {
+                            $scope.ErrorUpload[i] = true;
+                            messageWeb.messageError('Изображение '+$scope.myFile[i].name+' не может быть загружен!');
+                        }
+                        else {
+                            messageWeb.messageSuccess('Изображение '+$scope.myFile[i].name+' загружено!');
+                        }
+                    }
+                    $scope.myFile=[];
+                    $scope.getGalleryAll($scope.CurrentPage);
+                }
             });
+    }
+
+    $scope.selectPage =function (page) {
+        $scope.CurrentPage = page;
     }
 
 });
