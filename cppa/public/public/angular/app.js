@@ -612,17 +612,16 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
 
 });
 
-app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
+app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService) {
 
     $scope.Test=false;
     $scope.TestId=false;
     $scope.CurrentTest={};
     $scope.QuestionList=[];
+    $scope.TestQList=[];
     $scope.Tests=[];
     $scope.Pages=[];
     $scope.CurrentPage=0;
-    $scope.list1 = {title: 'AngularJS - Drag Me'};
-    $scope.list2 = {};
 
     $scope.getTestAll =function (page) {
         $http({
@@ -636,6 +635,7 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) 
         }, function error(response) {
         });
     };
+
 
     $scope.$watch('CurrentPage', function () {
         $scope.getTestAll($scope.CurrentPage);
@@ -684,6 +684,8 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) 
         }).then(function success(response) {
             if (response.data) {
                 $scope.CurrentTest = response.data;
+                $scope.TestQList = $scope.CurrentTest.question;
+                inintDrag();
             }
         }, function error(response) {
         });
@@ -696,6 +698,7 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) 
         }).then(function success(response) {
             if (response.data) {
                 $scope.QuestionList = response.data;
+                inintDrag();
             }
         }, function error(response) {
         });
@@ -705,6 +708,26 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) 
         $scope.getTest();
         $scope.getQuestions();
     });
+
+    // $scope.items2 = $scope.CurrentTest.question;
+
+
+    var inintDrag= function () {
+        dragularService.cleanEnviroment();
+        var containerLeft = document.querySelector('#containerTest'),
+            containerRight = document.querySelector('#containerQuesctions');
+
+        dragularService([containerLeft,containerRight], {
+            containersModel: [$scope.TestQList,$scope.QuestionList],
+            revertOnSpill: true
+        });
+        // dragularService([containerRight], {
+        //     containersModel: [$scope.QuestionList]
+        // });
+        console.log('Drag init!');
+    }
+
+
 
 });
 
@@ -727,8 +750,17 @@ app.controller('BasicModel', ['$scope', '$element', 'dragularService', function 
     }, {
         content: 'Item 8'
     }];
-    var containers = $element.children().children();
-    dragularService([containers[0],containers[1]],{
-        containersModel: [$scope.items1, $scope.items2]
+
+    var containerLeft = document.querySelector('#containerTest'),
+        containerRight = document.querySelector('#containerQuesctions');
+    console.log(containerLeft);
+    console.log(containerRight);
+
+    // var containers = $element.children().children();
+    dragularService([containerLeft], {
+        containersModel: [$scope.items1]
+    });
+    dragularService([containerRight], {
+        containersModel: [$scope.items2]
     });
 }]);

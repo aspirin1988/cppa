@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\QuestionRelation;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Question;
 use App\Test;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +28,14 @@ class AdminTestController extends Controller
     public function get($id)
     {
         $data=Test::where('id',$id)->first();
-        return response()->json($data);
+
+        $question=QuestionRelation::select('question_id')->where('test_id',$id)->get();
+        $select=[];
+        foreach ($question->toArray() as $item){
+            $select[]=$item['question_id'];
+            $question=Question::select('id','name')->whereIn('id', $select)->get();
+        };
+        return response()->json(['data'=>$data,'question'=>$question]);
     }
 
     public function edit($id)
@@ -47,4 +56,6 @@ class AdminTestController extends Controller
         }
         return response()->json(['tests'=>$data,'pages'=>$res]);
     }
+
+
 }

@@ -72,7 +72,9 @@ Route::group(['middleware' => 'admin.side'], function() {
     //View & edit Question
     Route::get('/admin/questions/', 'AdminQuestionsController@index');
 
-    Route::get('/admin/questions/test/get/{id}', 'AdminQuestionsController@index');
+    Route::get('/admin/questions/test/get/{id}', 'AdminQuestionsController@getTestQ');
+    Route::get('/admin/questions/getAll/', 'AdminQuestionsController@getAllQ');
+    Route::get('/admin/questions/getAll/{id}', 'AdminQuestionsController@getAllQ');
 
 
 

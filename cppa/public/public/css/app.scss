@@ -144,12 +144,12 @@ aside{
   }
 }
 
-main{
+main {
   padding: 10px 10px 10px 240px;
   @media (max-width: 768px) {
     padding-left: 10px;
   }
-  .upload-box{
+  .upload-box {
     .file_upload {
       position: relative;
       overflow: hidden;
@@ -161,7 +161,7 @@ main{
       padding: 20px;
       width: 100%;
       background: #fff;
-      &>input[type=file] {
+      & > input[type=file] {
         position: absolute;
         top: 0;
         right: 0;
@@ -171,43 +171,43 @@ main{
         padding: 0;
       }
     }
-    .uk-grid{
-      figure{
+    .uk-grid {
+      figure {
         width: 100%;
       }
     }
-    .imagePrew{
+    .imagePrew {
       width: 100%;
       padding-top: 55%;
       background-position: 50% 50%;
       background-size: cover;
     }
   }
-  .uk-accordion-title{
+  .uk-accordion-title {
     margin-bottom: 0 !important;
     box-sizing: border-box;
     border-top: 1px solid $white-color;
     border-bottom: 1px solid $white-color;
   }
-  .uk-accordion-content{
+  .uk-accordion-content {
     padding: 0;
   }
-  .profile-accordion{
-    .uk-accordion-title{
+  .profile-accordion {
+    .uk-accordion-title {
       background-color: $green-color;
       color: $white-color;
       text-align: center;
     }
   }
-  .profile-block{
+  .profile-block {
     background-color: $green-color;
     padding: 10px;
-    .avatar-profile{
+    .avatar-profile {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      .img-avatar{
+      .img-avatar {
         background-color: $red-color;
         width: 40%;
         padding-bottom: 40%;
@@ -216,7 +216,7 @@ main{
         background-size: cover;
       }
     }
-    .title{
+    .title {
       margin: 5px 0 0 0;
       width: 100%;
       color: $white-color;
@@ -224,20 +224,20 @@ main{
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 22px;
     }
-    .post-title{
+    .post-title {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       color: $white-color;
       margin: 0;
       text-align: center;
     }
-    .up-block{
-      ul{
+    .up-block {
+      ul {
         margin-bottom: 0;
         padding: 5px;
         list-style: none;
-        li{
+        li {
           width: 100%;
-          a{
+          a {
             padding: 4px;
 
             display: block;
@@ -245,10 +245,10 @@ main{
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 16px;
             transition: all .5s;
-            i{
+            i {
               margin-right: 5px;
             }
-            &:hover{
+            &:hover {
               background-color: $white-color;
               color: $green-color;
               padding-left: 10%;
@@ -258,16 +258,16 @@ main{
       }
     }
   }
-  .info-block{
+  .info-block {
     box-sizing: border-box;
     width: 100%;
 
   }
-  .user-group{
+  .user-group {
     .uk-accordion {
-      .uk-accordion-title{
+      .uk-accordion-title {
 
-          z-index: 1;
+        z-index: 1;
       }
       .uk-accordion-content {
         .uk-form {
@@ -283,22 +283,22 @@ main{
       }
     }
 
-    table{
+    table {
       //width: 100%;
       //border-collapse: collapse;
-      thead{
+      thead {
         //text-align: left;
       }
-      tbody{
-        tr{
-          &:hover{
+      tbody {
+        tr {
+          &:hover {
             background-color: $table-tr-color-hover !important;
           }
-          background-color: $table-tr-color-2 ;
-          &:nth-child(2n){
+          background-color: $table-tr-color-2;
+          &:nth-child(2n) {
             background-color: $table-tr-color-1;
           }
-          td{
+          td {
             //padding: 2px;
             //text-align: center;
           }
@@ -306,5 +306,22 @@ main{
       }
     }
 
+  }
+  .test-edit {
+    .containerVertical {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      width: 50%;
+      float: left;
+      display: inline-block;
+      & > * {
+        cursor: pointer;
+        background: rgba(0, 0, 0, .9);
+        padding: 5px;
+        margin: 2px;
+        border-radius: 5px;
+        border: 1px solid;
+      }
+    }
   }
 }
