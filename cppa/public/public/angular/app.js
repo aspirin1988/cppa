@@ -708,6 +708,27 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) 
 
 });
 
-app.controller('Basic', ['$element', 'dragularService', function TodoCtrl($element, dragularService) {
-    dragularService('.containerVertical');
+app.controller('BasicModel', ['$scope', '$element', 'dragularService', function TodoCtrl($scope, $element, dragularService) {
+    $scope.items1 = [{
+        content: 'Item 1'
+    }, {
+        content: 'Irem 2'
+    }, {
+        content: 'Item 3'
+    }, {
+        content: 'Item 4'
+    }];
+    $scope.items2 = [{
+        content: 'Item 5'
+    }, {
+        content: 'Item 6'
+    }, {
+        content: 'Item 7'
+    }, {
+        content: 'Item 8'
+    }];
+    var containers = $element.children().children();
+    dragularService([containers[0],containers[1]],{
+        containersModel: [$scope.items1, $scope.items2]
+    });
 }]);

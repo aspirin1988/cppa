@@ -65,19 +65,41 @@
                         .clickedClass {
                             background-color: orange !important;
                         }
+                        .containerVertical{
+                            padding-top:20px;
+                            padding-bottom:20px;
+                            width: 50%;
+                            float: left;
+                            display: inline-block;
+                        }
+                        .containerVertical >*{
+                            cursor: pointer;
+                            background: rgba(0,0,0,.5);
+                            padding: 5px;
+                            margin: 2px;
+                            border-radius: 5px;
+                            border:1px solid;
+                        }
                     </style>
 
-                    <div class='wrapper uk-container' ng-controller="Basic">
-                        <div  class='containerVertical uk-container' style="background: #2ab27b; width: 50%;">
-                            <div>Move me, but you can only drop me in one of these containers.</div>
-                            <div>If you try to drop me somewhere other than these containers, I'll just come back.</div>
-                            <div>Item 3.</div>
-                            <div>Item 6.</div>
+                    <div class='wrapper' ng-controller="BasicModel">
+                        <div class='tableRow'>
+                            <div class='containerVertical'>
+                                <div ng-repeat="item in items1">[[item.content]]</div>
+                            </div>
+                            <div class='containerVertical'>
+                                <div ng-repeat="item in items2">[[item.content]]</div>
+                            </div>
                         </div>
-                        <div class='containerVertical uk-container' style="background: #8ec73b; width: 50%;" >
-                            <div>You can drop me in the left container, otherwise I'll stay here.</div>
-                            <div ng-keypress="clicked = !clicked" ng-class="clicked && 'clickedClass'">Try to click me, dragular distinguish drag from click</div>
-                            <div>Item 5.</div>
+                        <div class="tableRow">
+                            <div class="container">
+                                <div>Items1:
+                                    <br/>[[items1 | json]]</div>
+                            </div>
+                            <div class="container">
+                                <div>Items2:
+                                    <br/>[[items2 | json]]</div>
+                            </div>
                         </div>
                     </div>
                 </div>

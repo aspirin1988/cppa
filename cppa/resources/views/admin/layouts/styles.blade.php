@@ -12,4 +12,6 @@
 <link rel="stylesheet" href="/public/css/components/accordion.gradient.min.css">
 <link rel="stylesheet" href="/public/css/components/notify.gradient.min.css">
 <link rel="stylesheet" href="/public/css/components/slidenav.min.css">
+<link rel="stylesheet" href="/public/css/components/slidenav.min.css">
+<link rel="stylesheet" href="/public/css/components/dragular.min.css">
 <link rel="stylesheet" href="/public/css/app.css">
