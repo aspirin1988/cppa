@@ -2,7 +2,7 @@
  * Created by serg on 07.10.16.
  */
 
-var app = angular.module('cppaApp',['ui.tinymce']);
+var app = angular.module('cppaApp',['dragularModule','ui.tinymce']);
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
@@ -557,7 +557,6 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
         $scope.CurrentGroup=false;
     };
 
-
     $scope.getGalleryAll =function (page) {
         $http({
             method:'GET',
@@ -612,3 +611,103 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
     }
 
 });
+
+app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb) {
+
+    $scope.Test=false;
+    $scope.TestId=false;
+    $scope.CurrentTest={};
+    $scope.QuestionList=[];
+    $scope.Tests=[];
+    $scope.Pages=[];
+    $scope.CurrentPage=0;
+    $scope.list1 = {title: 'AngularJS - Drag Me'};
+    $scope.list2 = {};
+
+    $scope.getTestAll =function (page) {
+        $http({
+            method:'GET',
+            url:'/admin/tests/page/'+page
+        }).then(function success(response) {
+            if(response.data) {
+                $scope.Tests = response.data.tests;
+                $scope.Pages = response.data.pages;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.$watch('CurrentPage', function () {
+        $scope.getTestAll($scope.CurrentPage);
+    });
+
+    $scope.createTest=function () {
+
+    };
+
+    $scope.clearTest =function () {
+        $scope.Test={};
+    };
+
+    $scope.createTest = function () {
+        console.log($scope.Test);
+        if ($scope.Test) {
+            $http({
+                method: "POST",
+                url: '/admin/tests/add',
+                data: $scope.Test
+            }).then(function success(response) {
+                if (response.data) {
+                    messageWeb.messageSuccess('Тест успешно создан!');
+                    $scope.getTestAll($scope.CurrentPage);
+                }
+            }, function error(response) {
+            });
+        }
+        else {
+            messageWeb.messageError('Тест не может быть создан!');
+        }
+    };
+
+    $scope.selectPage =function (page) {
+        $scope.CurrentPage = page;
+    };
+
+    $scope.GoToEdit = function (id) {
+        location.href='/admin/tests/edit/'+id;
+    };
+
+    $scope.getTest=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/tests/get/' + $scope.TestId
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.CurrentTest = response.data;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.getQuestions=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/questions/test/get/' + $scope.TestId
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.QuestionList = response.data;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.$watch('TestId', function () {
+        $scope.getTest();
+        $scope.getQuestions();
+    });
+
+});
+
+app.controller('Basic', ['$element', 'dragularService', function TodoCtrl($element, dragularService) {
+    dragularService('.containerVertical');
+}]);

@@ -61,5 +61,19 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::post('/admin/gallery/img/upload/{id}/{to}', 'ImageGalleryController@UploadImage');
     Route::post('/admin/gallery/img/edit/{id}', 'ImageGalleryController@edit');
 
+    //View & edit Test
+    Route::get('/admin/tests/', 'AdminTestController@index');
+    Route::get('/admin/tests/page/{page}', 'AdminTestController@getTestPage');
+    Route::get('/admin/tests/edit/{id}', 'AdminTestController@edit');
+    Route::get('/admin/tests/get/{id}', 'AdminTestController@get');
+
+    Route::post('/admin/tests/add', 'AdminTestController@addTest');
+
+    //View & edit Question
+    Route::get('/admin/questions/', 'AdminQuestionsController@index');
+
+    Route::get('/admin/questions/test/get/{id}', 'AdminQuestionsController@index');
+
+
 
 });

@@ -37,6 +37,13 @@
                 <li><a href="#"><i class="uk-icon uk-icon-plus"></i>Добавить</a></li>
             </ul>
         </li>
+        <li class="uk-parent">
+            <a href="#"><i class="uk-icon uk-icon-pencil-square-o"></i>Тесты</a>
+            <ul class="uk-nav-sub">
+                <li><a href="/admin/tests/"><i class="uk-icon uk-icon-list-alt"></i>Список тестов</a></li>
+                <li><a href="/admin/questions/"><i class="uk-icon uk-icon-list-alt"></i>Список вопросов</a></li>
+            </ul>
+        </li>
         <li><a href="/admin/gallery/img/"><i class="uk-icon uk-icon-image "></i>Галерея</a></li>
         <li><a href="/admin/users/"><i class="uk-icon uk-icon-users "></i>Пользователи</a></li>
         <li class="uk-parent">
