@@ -833,11 +833,91 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
 
     $scope.selectPage=function (id) {
         $scope.CurrentPage=id;
-    }
+    };
 
     $scope.addAnswer=function () {
-        $scope.NewQuestion.answer[$scope.NewQuestion.answer.length]={text:'',value:''};
-    }
+        $scope.NewQuestion.answer[$scope.NewQuestion.answer.length]={text:'',value:"false"};
+    };
+
+    $scope.createQuestion=function () {
+        if (!$scope.NewQuestion.name){
+            messageWeb.messageError('Поле "Вопрос" не может быть пустым!');
+        }
+        else {
+            if (!$scope.NewQuestion.answer.length) {
+                messageWeb.messageError('Вопрос не может быть добавлен! Так как внем нет ни одного ответа !');
+            }
+            else {
+                var Answer=false;
+                for(var i=0; i<$scope.NewQuestion.answer.length; i++){
+                    if ($scope.NewQuestion.answer[i].value===true){
+                        Answer=true;
+                        break;
+                    }
+                }
+                if (Answer){
+                    $http({
+                        method:'POST',
+                        url:'/admin/question/add',
+                        data:$scope.NewQuestion
+                    }).then(function success(response) {
+                        if(response.data) {
+                            console.log(response.data);
+                            $scope.getQuestionAll($scope.CurrentPage);
+                            messageWeb.messageSuccess('Вопрос успешно добавлен !');
+                        }
+                    }, function error(response) {
+                        messageWeb.messageError('Вопрос не может быть добавлен !');
+                    });
+                }
+                else{
+                    messageWeb.messageError('Не выбран правельный ответ!');
+                }
+            }
+        }
+    };
+
+    $scope.saveQuestion=function () {
+        if (!$scope.CurrentQuestion.name){
+            messageWeb.messageError('Поле "Вопрос" не может быть пустым!');
+        }
+        else {
+            if (!$scope.CurrentQuestion.answer.length) {
+                messageWeb.messageError('Вопрос не может быть добавлен! Так как внем нет ни одного ответа !');
+            }
+            else {
+                var Answer=false;
+                for(var i=0; i<$scope.CurrentQuestion.answer.length; i++){
+                    if ($scope.CurrentQuestion.answer[i].value===true){
+                        Answer=true;
+                        break;
+                    }
+                }
+                if (Answer){
+                    $http({
+                        method:'POST',
+                        url:'/admin/question/save/'+$scope.QuestionId,
+                        data:$scope.CurrentQuestion
+                    }).then(function success(response) {
+                        if(response.data) {
+                            console.log(response.data);
+                            $scope.getQuestionAll($scope.CurrentPage);
+                            messageWeb.messageSuccess('Вопрос успешно добавлен !');
+                        }
+                    }, function error(response) {
+                        messageWeb.messageError('Вопрос не может быть добавлен !');
+                    });
+                }
+                else{
+                    messageWeb.messageError('Не выбран правельный ответ!');
+                }
+            }
+        }
+    };
+
+    $scope.clearQuestion=function () {
+        $scope.NewQuestion={};
+    };
 
 
 

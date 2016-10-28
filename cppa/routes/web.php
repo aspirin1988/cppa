@@ -82,6 +82,9 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/question/get/page/{page}', 'AdminQuestionsController@getPage');
     Route::get('/admin/question/get/{id}', 'AdminQuestionsController@get');
 
+    Route::post('/admin/question/add', 'AdminQuestionsController@addQuestion');
+    Route::post('/admin/question/save/{id}', 'AdminQuestionsController@updateQuestion');
+
 
 
 });

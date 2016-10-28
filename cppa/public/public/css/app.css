@@ -225,5 +225,35 @@ main {
       border-radius: 5px;
       margin: 3px 0 3px 0;
       color: #F8F2E2; }
+  main .question-index .new-answer {
+    float: right;
+    margin: -33px -20px 0 0;
+    width: 15px;
+    height: 15px; }
+  main .question-index .label-answer {
+    float: right;
+    margin: -50px -24px 0 0;
+    width: 37px;
+    height: 50px;
+    background: #dddddd;
+    border-radius: 5px;
+    transition: 1s; }
+    main .question-index .label-answer.active {
+      background: #90c64b; }
+  main .question-edit .new-answer {
+    float: right;
+    margin: -33px -20px 0 0;
+    width: 15px;
+    height: 15px; }
+  main .question-edit .label-answer {
+    float: right;
+    margin: -50px -24px 0 0;
+    width: 37px;
+    height: 50px;
+    background: #dddddd;
+    border-radius: 5px;
+    transition: 1s; }
+    main .question-edit .label-answer.active {
+      background: #90c64b; }
 
 /*# sourceMappingURL=app.css.map */

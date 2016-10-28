@@ -34,6 +34,7 @@ class AdminQuestionsController extends Controller
     public function get($id)
     {
         $data = Question::where('id',$id)->first();
+        $data['answer']=json_decode($data['answer']);
         return response()->json($data);
     }
 
@@ -49,5 +50,23 @@ class AdminQuestionsController extends Controller
             $res[]=$i;
         }
         return response()->json(['question'=>$data,'pages'=>$res]);
+    }
+
+    public function addQuestion(Request $request)
+    {
+        $data=$request->all();
+        $data['answer']=json_encode($data['answer']);
+        $data=Question::create($data);
+        return response()->json($data);
+    }
+
+    public function updateQuestion($id, Request $request)
+    {
+        $data=$request->all();
+        unset($data['updated_at']);
+        unset($data['id']);
+        $data['answer']=json_encode($data['answer']);
+        $data=Question::where('id',$id)->update($data);
+        return response()->json($data);
     }
 }

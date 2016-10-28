@@ -1,7 +1,7 @@
 @extends('admin.dashboard')
 
 @section('content')
-    <section ng-controller="questionCTRL" ng-init="QuestionId={{$id}};" >
+    <section ng-controller="questionCTRL" class="question-edit" ng-init="QuestionId={{$id}};" >
         <h2>Редактирование страницы</h2>
         <div class="uk-grid">
             <div class=" uk-form uk-width-small-1-1 uk-width-medium-7-10 uk-width-large-7-10 uk-visible-small uk-accordion" data-uk-accordion="{collapse: true, showfirst: true}">
@@ -10,55 +10,23 @@
                     <i class="uk-icon-plus-circle uk-text-success"></i>
                 </h3>
                 <div class="uk-accordion-content">
-                    <button class="uk-button uk-button-success" ng-click="savePage(1);" >Опубликовать</button>
-                    <button class="uk-button uk-button-primary" ng-click="savePage(0);">Черновик</button>
+                    <button class="uk-button uk-button-success" ng-click="saveQuestion();" >Сохранить</button>
                 </div>
             </div>
 
             <div class="uk-form uk-width-small-1-1 uk-width-medium-7-10 uk-width-large-7-10">
                 <div class="uk-width-1-1 uk-margin-top">
-                    <label class="uk-form-label">Название</label>
+                    <label class="uk-form-label">Вопрос</label>
                     <div class="uk-form-controls">
-                        <input type="text" ng-model="Page.title" placeholder="Название" class="uk-width-1-1">
+                        <input type="text" ng-model="CurrentQuestion.name" placeholder="Вопрос" class="uk-width-1-1">
                     </div>
                 </div>
-                <div class="uk-width-1-1 uk-margin-top">
-                    <label class="uk-form-label">Ярлык</label>
+                <div class="uk-width-1-1 uk-margin-top" ng-repeat="(key,val) in CurrentQuestion.answer" >
+                    <label class="uk-form-label">Ответ №[[key+1]]</label>
                     <div class="uk-form-controls">
-                        <input type="text" ng-model="Page.slug" placeholder="Ярлык" class="uk-width-1-1" ng-class="{'uk-form-danger':PageIsset===true,'uk-form-success':PageIsset===false}">
-                    </div>
-                </div>
-                <div class="uk-width-1-1 uk-margin-top">
-                    <label class="uk-form-label">Контент</label>
-                    <div class="uk-form-controls">
-                            <textarea ui-tinymce="tinymceOptions" ng-model="Page.content"></textarea>
-                    </div>
-                </div>
-                <div class="uk-form uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1 uk-accordion uk-margin-top" data-uk-accordion="{collapse: true, showfirst: true}">
-                    <h3 class="uk-accordion-title">
-                        Галерея страницы
-                        <i class="uk-icon-plus-circle uk-text-success"></i>
-                    </h3>
-                    <div class="uk-accordion-content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur delectus dicta doloremque earum iste nam nostrum, quod. Ad adipisci aliquam consequatur, ducimus, et iure mollitia nostrum quam quas sint soluta!
-                    </div>
-                </div>
-                <div class="uk-form uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1 uk-accordion uk-margin-top" data-uk-accordion="{collapse: true, showfirst: true}">
-                    <h3 class="uk-accordion-title">
-                        Видео страницы
-                        <i class="uk-icon-plus-circle uk-text-success"></i>
-                    </h3>
-                    <div class="uk-accordion-content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur delectus dicta doloremque earum iste nam nostrum, quod. Ad adipisci aliquam consequatur, ducimus, et iure mollitia nostrum quam quas sint soluta!
-                    </div>
-                </div>
-                <div class="uk-form uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1 uk-accordion uk-margin-top" data-uk-accordion="{collapse: true, showfirst: true}">
-                    <h3 class="uk-accordion-title">
-                        Редактор метаданных страницы
-                        <i class="uk-icon-plus-circle uk-text-success"></i>
-                    </h3>
-                    <div class="uk-accordion-content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur delectus dicta doloremque earum iste nam nostrum, quod. Ad adipisci aliquam consequatur, ducimus, et iure mollitia nostrum quam quas sint soluta!
+                        <textarea ng-model="val.text" placeholder="Ответ" class="uk-width-1-1" ng-class="{'uk-form-success':val.value===true}"></textarea>
+                        <label class="label-answer" ng-class="{'active':val.value===true}" for=""></label>
+                        <input  type="checkbox" ng-model="val.value" placeholder="Описание" class="new-answer" ng-class="{'uk-form-success':val.value===true}">
                     </div>
                 </div>
             </div>
@@ -70,19 +38,10 @@
                         <i class="uk-icon-plus-circle uk-text-success"></i>
                     </h3>
                     <div class="uk-accordion-content uk-flex uk-flex-space-around uk-flex-column">
-                        <button class="uk-button uk-button-success uk-margin uk-margin-top uk-margin-bottom" ng-click="savePage(1);" >Опубликовать</button>
-                        <button class="uk-button uk-button-primary uk-margin-bottom" ng-click="savePage(0);">Черновик</button>
+                        <button class="uk-button uk-button-success" ng-click="saveQuestion();" >Сохранить</button>
                     </div>
                 </div>
                 <br>
-                <div class="uk-accordion" data-uk-accordion="{collapse: true, showfirst: true}">
-                    <h3 class="uk-accordion-title">
-                        Миниатюра
-                        <i class="uk-icon-plus-circle uk-text-success"></i>
-                    </h3>
-                    <div class="uk-accordion-content">
-                    </div>
-                </div>
             </div>
         </div>
     </section>

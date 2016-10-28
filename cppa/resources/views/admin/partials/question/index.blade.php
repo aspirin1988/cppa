@@ -9,7 +9,7 @@
 @extends('admin.dashboard')
 
 @section('content')
-<section ng-controller="questionCTRL" class="user-group">
+<section ng-controller="questionCTRL" class="question-index">
     <h2>Список вопросов</h2>
     <div class="uk-container uk-container-center">
         <div class="uk-accordion" data-uk-accordion="{collapse: false, showfirst: false}">
@@ -22,19 +22,24 @@
                 <div>
                     <div class="uk-form uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1">
                         <div class="uk-width-1-1 uk-margin-top">
-                            <label class="uk-form-label">Название</label>
+                            <label class="uk-form-label">Вопрос</label>
                             <div class="uk-form-controls">
-                                <input type="text" ng-model="NewQuestion.name" placeholder="Название" class="uk-width-1-1">
+                                <input type="text" ng-model="NewQuestion.name" placeholder="Вопрос" class="uk-width-1-1">
                             </div>
                         </div>
                         <div class="uk-width-1-1 uk-margin-top">
-                            <button ng-click="addAnswer()"  ><i class="uk-icon-plus"></i></button>
+                            <button class="uk-button uk-button-success" ng-click="addAnswer()"  ><i class="uk-icon-plus"></i></button>
                             <label class="uk-form-label">Ответы</label>
-                            <div class="uk-form-controls" ng-repeat="(key,val) in NewQuestion.answer">
-                                <input  type="text" ng-model="val.text" placeholder="Описание" class="uk-width-1-1" ng-class="{'uk-form-danger':PageIsset===true,'uk-form-success':PageIsset===false}">
-                                <input  type="checkbox" ng-model="val.value" placeholder="Описание" class="uk-width-1-1" ng-class="{'uk-form-danger':PageIsset===true,'uk-form-success':PageIsset===false}">
+                        </div>
+                        <div class="uk-width-1-1 uk-margin-top" ng-repeat="(key,val) in NewQuestion.answer" >
+                            <label class="uk-form-label">Ответ №[[key+1]]</label>
+                            <div class="uk-form-controls">
+                                <textarea ng-model="val.text" placeholder="Ответ" class="uk-width-1-1" ng-class="{'uk-form-success':val.value===true}"></textarea>
+                                <label class="label-answer" ng-class="{'active':val.value===true}" for=""></label>
+                                <input  type="checkbox" ng-model="val.value" placeholder="Описание" class="new-answer" ng-class="{'uk-form-success':val.value===true}">
                             </div>
                         </div>
+
                     </div>
 
                     <div class="uk-form">
@@ -44,10 +49,10 @@
                                     <br>
                                     <br>
                                     <div class="uk-text-center uk-form-controls">
-                                        <button class="uk-button uk-button-danger" ng-click="clearUserGroup()">
+                                        <button class="uk-button uk-button-danger" ng-click="clearQuestion()">
                                             <i class="uk-icon-close"></i>
                                         </button>
-                                        <button class="uk-button uk-button-success" ng-click="createPage()" >
+                                        <button class="uk-button uk-button-success" ng-click="createQuestion()" >
                                             <i class="uk-icon-save"></i>
                                         </button>
                                     </div>
