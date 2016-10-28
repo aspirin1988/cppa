@@ -68,6 +68,9 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/tests/get/{id}', 'AdminTestController@get');
 
     Route::post('/admin/tests/add', 'AdminTestController@addTest');
+    Route::post('/admin/tests/add/question/{id}', 'AdminTestController@addQuestion');
+    Route::post('/admin/tests/remove/question/{id}', 'AdminTestController@removeQuestion');
+    Route::post('/admin/tests/save/{id}', 'AdminTestController@save');
 
     //View & edit Question
     Route::get('/admin/questions/', 'AdminQuestionsController@index');
@@ -75,6 +78,9 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/questions/test/get/{id}', 'AdminQuestionsController@getTestQ');
     Route::get('/admin/questions/getAll/', 'AdminQuestionsController@getAllQ');
     Route::get('/admin/questions/getAll/{id}', 'AdminQuestionsController@getAllQ');
+    Route::get('/admin/question/edit/{id}', 'AdminQuestionsController@edit');
+    Route::get('/admin/question/get/page/{page}', 'AdminQuestionsController@getPage');
+    Route::get('/admin/question/get/{id}', 'AdminQuestionsController@get');
 
 
 

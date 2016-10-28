@@ -224,7 +224,6 @@ app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb)
             method:'GET',
             url:'/admin/users/getAll'
         }).then(function success(response) {
-            console.log(response);
             $scope.Users= response.data;
         }, function error(response) {});
     };
@@ -321,7 +320,6 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
             url: '/admin/pages/get/' + $scope.PageId
         }).then(function success(response) {
             if (response.data) {
-                // console.log(response.data);
                 $scope.Page = response.data;
             }
         }, function error(response) {
@@ -334,7 +332,6 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
             url: '/admin/pages/get/'
         }).then(function success(response) {
             if (response.data) {
-                // console.log(response.data);
                 $scope.Pages = response.data;
             }
         }, function error(response) {
@@ -354,7 +351,6 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
             data: $scope.Page
         }).then(function success(response) {
             if (response.data) {
-                // console.log(response.data);
                 messageWeb.messageSuccess('Данные странцы успешно обновлены!');
             }
         }, function error(response) {
@@ -370,8 +366,6 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
                 data: $scope.newPage
             }).then(function success(response) {
                 if (response.data) {
-                    // console.log(response.data);
-                    // $scope.PageIsset = response.data.res;
                     messageWeb.messageSuccess('Страница успешно создана!');
                     $scope.getPages();
 
@@ -392,7 +386,6 @@ app.controller('pageCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,T
                 data: {slug: val}
             }).then(function success(response) {
                 if (response.data) {
-                    // console.log(response.data);
                     $scope.PageIsset = response.data.res;
                 }
             }, function error(response) {
@@ -601,7 +594,6 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
             data: $scope.CurrentImage
         }).then(function success(response) {
             if (response.data) {
-                // console.log(response.data);
                 messageWeb.messageSuccess('Данные странцы успешно обновлены!');
                 modal_remove.hide();
             }
@@ -612,13 +604,14 @@ app.controller('migGalleryCTRL',function ($scope, $http, $sce ,fileUpload,messag
 
 });
 
-app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService) {
+app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService, $timeout) {
 
     $scope.Test=false;
     $scope.TestId=false;
     $scope.CurrentTest={};
-    $scope.QuestionList=[];
-    $scope.TestQList=[];
+    $scope.QuestionList=false;
+    $scope.TestQList=false;
+    $scope.TempTestQList=[];
     $scope.Tests=[];
     $scope.Pages=[];
     $scope.CurrentPage=0;
@@ -636,21 +629,20 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
         });
     };
 
-
     $scope.$watch('CurrentPage', function () {
         $scope.getTestAll($scope.CurrentPage);
     });
 
-    $scope.createTest=function () {
-
-    };
+    $scope.$watch('TestId', function () {
+        $scope.getTest();
+        $scope.getQuestions();
+    });
 
     $scope.clearTest =function () {
         $scope.Test={};
     };
 
     $scope.createTest = function () {
-        console.log($scope.Test);
         if ($scope.Test) {
             $http({
                 method: "POST",
@@ -669,14 +661,6 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
         }
     };
 
-    $scope.selectPage =function (page) {
-        $scope.CurrentPage = page;
-    };
-
-    $scope.GoToEdit = function (id) {
-        location.href='/admin/tests/edit/'+id;
-    };
-
     $scope.getTest=function () {
         $http({
             method: 'GET',
@@ -684,11 +668,41 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
         }).then(function success(response) {
             if (response.data) {
                 $scope.CurrentTest = response.data;
+                for (var i=0; i<response.data.question.length; i++){
+                    $scope.TempTestQList[i] = response.data.question[i];
+                }
                 $scope.TestQList = $scope.CurrentTest.question;
                 inintDrag();
             }
         }, function error(response) {
         });
+    };
+
+    $scope.saveTest = function () {
+        if ($scope.TestQList) {
+            $http({
+                method: "POST",
+                url: '/admin/tests/save/'+$scope.TestId,
+                data: $scope.CurrentTest.data
+            }).then(function success(response) {
+                if (response.data) {
+                    messageWeb.messageSuccess('Тест успешно сохранен!');
+                    // $scope.getTestAll($scope.CurrentPage);
+                }
+            }, function error(response) {
+            });
+        }
+        else {
+            messageWeb.messageError('Тест не может быть сохранен!');
+        }
+    };
+
+    $scope.selectPage =function (page) {
+        $scope.CurrentPage = page;
+    };
+
+    $scope.GoToEdit = function (id) {
+        location.href='/admin/tests/edit/'+id;
     };
 
     $scope.getQuestions=function () {
@@ -704,63 +718,128 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
         });
     };
 
-    $scope.$watch('TestId', function () {
-        $scope.getTest();
-        $scope.getQuestions();
-    });
+    $scope.removeTQ=function (key) {
+        $http({
+            method: "POST",
+            url: '/admin/tests/remove/question/'+$scope.TestId,
+            data: {'question_id':$scope.TestQList[key].id}
+        }).then(function success(response) {
+            if (response.data) {
+                messageWeb.messageSuccess('Вопрос успешно удален!');
+                $scope.QuestionList[$scope.QuestionList.length]=$scope.TestQList[key];
+                $scope.TestQList.splice(key,1);
+                $scope.TempTestQList=[];
+                for (var i=0; i<$scope.TestQList.length; i++){
 
-    // $scope.items2 = $scope.CurrentTest.question;
+                    $scope.TempTestQList[i] = $scope.TestQList[i];
+                }
+            }
+        }, function error(response) {
+            messageWeb.messageError('Вопрос не может быть удален!');
+        });
+    };
+    
+    $scope.addQuestion = function (id) {
+        $http({
+            method: "POST",
+            url: '/admin/tests/add/question/'+$scope.TestId,
+            data: {'question_id':id}
+        }).then(function success(response) {
+            if (response.data) {
+                messageWeb.messageSuccess('Вопрос успешно добавлен!');
+            }
+        }, function error(response) {
+            messageWeb.messageError('Вопрос не может быть добавлен!');
+        });
+    };
 
 
     var inintDrag= function () {
-        dragularService.cleanEnviroment();
-        var containerLeft = document.querySelector('#containerTest'),
-            containerRight = document.querySelector('#containerQuesctions');
+        if ($scope.QuestionList && $scope.TestQList) {
+            dragularService.cleanEnviroment();
+            var containerLeft = document.querySelector('#containerTest'),
+                containerRight = document.querySelector('#containerQuesctions');
 
-        dragularService([containerLeft,containerRight], {
-            containersModel: [$scope.TestQList,$scope.QuestionList],
-            revertOnSpill: true
+            dragularService([containerLeft, containerRight], {
+                containersModel: [$scope.TestQList, $scope.QuestionList],
+                revertOnSpill: true
+            });
+        }
+    };
+
+    Array.prototype.diff = function(a) {
+        return this.filter(function(i){return a.indexOf(i) < 0;});
+    };
+
+    $scope.$watch('TestQList.length', function () {
+        if ($scope.TempTestQList.length<$scope.TestQList.length){
+            var result = $scope.TestQList.diff($scope.TempTestQList);
+            $scope.addQuestion(result[0].id);
+            $scope.TempTestQList=[];
+            for (var i=0; i<$scope.TestQList.length; i++){
+                $scope.TempTestQList[i] = $scope.TestQList[i];
+            }
+        }
+    });
+});
+
+app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService, $timeout) {
+
+    $scope.QuestionId=false;
+    $scope.NewQuestion={name:'',answer:[]};
+    $scope.Questions=[];
+    $scope.Pages=[];
+    $scope.CurrentQuestion=false;
+    $scope.CurrentPage=0;
+
+    $scope.$watch('QuestionId', function () {
+        if ($scope.QuestionId) {
+            $scope.getQuestion($scope.QuestionId);
+        }
+    });
+
+    $scope.$watch('CurrentPage', function () {
+        $scope.getQuestionAll($scope.CurrentPage);
+    });
+
+    $scope.getQuestion=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/question/get/' + $scope.QuestionId
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.CurrentQuestion = response.data;
+            }
+        }, function error(response) {
         });
-        // dragularService([containerRight], {
-        //     containersModel: [$scope.QuestionList]
-        // });
-        console.log('Drag init!');
+    };
+
+    $scope.getQuestionAll =function (page) {
+        $http({
+            method:'GET',
+            url:'/admin/question/get/page/'+page
+        }).then(function success(response) {
+            if(response.data) {
+                $scope.Questions = response.data.question;
+                $scope.Pages = response.data.pages;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.GoToEdit = function (id) {
+        location.href='/admin/question/edit/'+id;
+    };
+
+    $scope.selectPage=function (id) {
+        $scope.CurrentPage=id;
+    }
+
+    $scope.addAnswer=function () {
+        $scope.NewQuestion.answer[$scope.NewQuestion.answer.length]={text:'',value:''};
     }
 
 
 
+
 });
-
-app.controller('BasicModel', ['$scope', '$element', 'dragularService', function TodoCtrl($scope, $element, dragularService) {
-    $scope.items1 = [{
-        content: 'Item 1'
-    }, {
-        content: 'Irem 2'
-    }, {
-        content: 'Item 3'
-    }, {
-        content: 'Item 4'
-    }];
-    $scope.items2 = [{
-        content: 'Item 5'
-    }, {
-        content: 'Item 6'
-    }, {
-        content: 'Item 7'
-    }, {
-        content: 'Item 8'
-    }];
-
-    var containerLeft = document.querySelector('#containerTest'),
-        containerRight = document.querySelector('#containerQuesctions');
-    console.log(containerLeft);
-    console.log(containerRight);
-
-    // var containers = $element.children().children();
-    dragularService([containerLeft], {
-        containersModel: [$scope.items1]
-    });
-    dragularService([containerRight], {
-        containersModel: [$scope.items2]
-    });
-}]);

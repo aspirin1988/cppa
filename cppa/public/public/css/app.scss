@@ -6,6 +6,9 @@ $deep-blue-color: #22609e;
 $gray-color: #374047;
 $red-color: #EB4549;
 $black-color: black;
+$black-color1: rgba(0,0,0,.8);
+
+$header-bg:#f7f7f7;
 
 $table-tr-color-1: #aaaaaa;
 $table-tr-color-2: #ffffff;
@@ -308,19 +311,28 @@ main {
 
   }
   .test-edit {
-    .containerVertical {
-      padding-top: 20px;
-      padding-bottom: 20px;
-      width: 50%;
-      float: left;
-      display: inline-block;
-      & > * {
-        cursor: pointer;
-        background: rgba(0, 0, 0, .9);
-        padding: 5px;
-        margin: 2px;
+    #testEdit{
+      h3{
+        background: $header-bg;
+        margin: 3px -5px -6px 5px;
+        border-radius: 5px 5px 0 0;
+        text-align: center;
+      }
+      .containerVertical{
+        min-height: 200px;
+        width: 100%;
+        border:1px $gray-color solid;
         border-radius: 5px;
-        border: 1px solid;
+        box-sizing: border-box;
+        padding: 5px;
+        margin: 5px;
+        &>*{
+          background: $black-color1;
+          padding: 2px;
+          border-radius: 5px;
+          margin:  3px 0 3px 0;
+          color: $white-color;
+        }
       }
     }
   }

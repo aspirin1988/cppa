@@ -57,5 +57,29 @@ class AdminTestController extends Controller
         return response()->json(['tests'=>$data,'pages'=>$res]);
     }
 
+    public function save($id,Request $request)
+    {
+        $data=$request->all();
+        unset($data['id']);
+        unset($data['updated_at']);
+        $data=Test::where('id',$id)->update($data);
+        return response()->json($data);
+    }
+
+    public function removeQuestion($id, Request $request)
+    {
+        $data=$request->all();
+        $data = QuestionRelation::where('test_id',$id)->where('question_id',$data['question_id'])->delete();
+        return response()->json($data);
+    }
+
+    public function addQuestion($id, Request $request)
+    {
+        $data=$request->all();
+        $data['test_id']=$id;
+        $data = $data = QuestionRelation::create($data);
+        return response()->json($data);
+    }
+
 
 }
