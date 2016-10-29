@@ -81,5 +81,11 @@ class AdminTestController extends Controller
         return response()->json($data);
     }
 
+    public function testInit ($id)
+    {
+        $data = QuestionRelation::select('question_id')->where('test_id',$id)->orderByRaw("RAND()")->limit(2)->get();
+        return response()->json($data);
+    }
+
 
 }

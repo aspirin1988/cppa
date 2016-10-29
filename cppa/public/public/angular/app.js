@@ -772,6 +772,9 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
     };
 
     $scope.$watch('TestQList.length', function () {
+        if ($scope.TestQList.length!=undefined) {
+            $scope.CurrentTest.data.count_question = $scope.TestQList.length;
+        }
         if ($scope.TempTestQList.length<$scope.TestQList.length){
             var result = $scope.TestQList.diff($scope.TempTestQList);
             $scope.addQuestion(result[0].id);
@@ -791,6 +794,8 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
     $scope.Pages=[];
     $scope.CurrentQuestion=false;
     $scope.CurrentPage=0;
+
+    var modal_remove=UIkit.modal('#remove-modal');
 
     $scope.$watch('QuestionId', function () {
         if ($scope.QuestionId) {
@@ -865,6 +870,8 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
                             console.log(response.data);
                             $scope.getQuestionAll($scope.CurrentPage);
                             messageWeb.messageSuccess('Вопрос успешно добавлен !');
+                            $scope.clearQuestion();
+
                         }
                     }, function error(response) {
                         messageWeb.messageError('Вопрос не может быть добавлен !');
@@ -875,6 +882,10 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
                 }
             }
         }
+    };
+
+    $scope.clearQuestion=function () {
+        $scope.NewQuestion={};
     };
 
     $scope.saveQuestion=function () {
@@ -915,10 +926,34 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
         }
     };
 
-    $scope.clearQuestion=function () {
-        $scope.NewQuestion={};
+    $scope.openRemoveQuestion = function (val) {
+        modal_remove.show();
+        $scope.CurrentQuestion=val;
     };
 
+    $scope.closeRemoveQuestion = function (val) {
+        modal_remove.hide();
+        $scope.CurrentQuestion=false;
+    };
+
+    $scope.RemoveQuestion = function () {
+        if($scope.CurrentQuestion){
+            $http({
+                method:'GET',
+                url:'/admin/question/remove/'+$scope.CurrentQuestion.id
+            }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentQuestion = false;
+                    $scope.getQuestionAll($scope.CurrentPage);
+                    modal_remove.hide();
+                    messageWeb.messageSuccess('Вопрос был успешно удален!');
+                }
+            }, function error(response) {
+                console.log(response);
+                messageWeb.messageError('Вопрос не был удален!');
+            });
+        }
+    };
 
 
 

@@ -69,4 +69,11 @@ class AdminQuestionsController extends Controller
         $data=Question::where('id',$id)->update($data);
         return response()->json($data);
     }
+
+    public function remove($id)
+    {
+        $data = Question::where('id',$id)->delete();
+        return response()->json($data);
+
+    }
 }

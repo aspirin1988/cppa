@@ -17,7 +17,6 @@
                 Добавить новый вопрос
                 <i class="uk-icon-plus-circle uk-text-success"></i>
             </h3>
-            [[NewQuestion]]
             <div class="uk-accordion-content">
                 <div>
                     <div class="uk-form uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1">
@@ -90,7 +89,7 @@
                             <button class="uk-button uk-button-success" ng-click="GoToEdit(val.id)">
                                 <i class="uk-icon-edit"></i>
                             </button>
-                            <button class="uk-button uk-button-danger" ng-click="openRemovePage(val)">
+                            <button class="uk-button uk-button-danger" ng-click="openRemoveQuestion(val)">
                                 <i class="uk-icon-remove"></i>
                             </button>
                         </td>
@@ -113,8 +112,8 @@
             <a class="uk-modal-close uk-close"></a>
             <h2>Вы действительно хотите удалить !</h2>
             <div class="uk-container uk-container-center uk-flex uk-flex-space-around" >
-                <button class="uk-button uk-button-danger" ng-click="RemovePage()" >Yes</button>
-                <button class="uk-button uk-button-success uk-modal-close" ng-click="closeRemovePage()" >No</button>
+                <button class="uk-button uk-button-danger" ng-click="RemoveQuestion()" >Yes</button>
+                <button class="uk-button uk-button-success uk-modal-close" ng-click="closeRemoveQuestion()" >No</button>
             </div>
         </div>
     </div>

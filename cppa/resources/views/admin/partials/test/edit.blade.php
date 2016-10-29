@@ -37,6 +37,26 @@
                                             <textarea class="uk-width-1-1" ng-model="CurrentTest.data.description" placeholder="Описание"></textarea>
                                         </div>
                                     </div>
+                                    <div class="uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1">
+                                        <label class="uk-form-label">Время мин.</label>
+                                        <div class="uk-form-controls">
+                                            <label class="label-answer" ng-class="{'active':val.value===true}" for=""></label>
+                                            <input  type="checkbox" ng-model="CurrentTest.data.test_on_time" placeholder="Описание" class="new-answer" ng-class="{'uk-form-success':val.value===true}">
+                                            <input type="text" class="uk-width-1-1" ng-model="CurrentTest.data.time" ng-disabled="!CurrentTest.data.test_on_time" placeholder="Время" >
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1">
+                                        <label class="uk-form-label">Количество выводимых вопросов</label>
+                                        <div class="uk-form-controls">
+                                            <input class="uk-width-1-1" type="text" ng-model="CurrentTest.data.count_question" placeholder="Название">
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1">
+                                        <label class="uk-form-label">Случайный порядок</label>
+                                        <div class="uk-form-controls">
+                                            <input class="uk-width-1-10" type="checkbox" ng-model="CurrentTest.data.rand"  placeholder="Название">
+                                        </div>
+                                    </div>
                                 </div>
                             </fieldset>
                         </div>

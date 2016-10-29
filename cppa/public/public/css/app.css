@@ -225,6 +225,21 @@ main {
       border-radius: 5px;
       margin: 3px 0 3px 0;
       color: #F8F2E2; }
+  main .test-edit .new-answer {
+    float: right;
+    margin: 7px -20px 0px 0;
+    width: 15px;
+    height: 15px; }
+  main .test-edit .label-answer {
+    float: right;
+    margin: 0 -25px -39px 0;
+    width: 40px;
+    height: 30px;
+    background: #dddddd;
+    border-radius: 5px;
+    transition: 1s; }
+    main .test-edit .label-answer.active {
+      background: #90c64b; }
   main .question-index .new-answer {
     float: right;
     margin: -33px -20px 0 0;
