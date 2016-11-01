@@ -611,6 +611,8 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
     $scope.CurrentTest={};
     $scope.QuestionList=false;
     $scope.TestQList=false;
+    $scope.Questionscategory=[];
+    $scope.CurrentCategory=0;
     $scope.TempTestQList=[];
     $scope.Tests=[];
     $scope.Pages=[];
@@ -629,8 +631,26 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
         });
     };
 
+    $scope.getQuestionCategory=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/question/category/get/'
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.Questionscategory = response.data;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.getQuestionCategory();
+
     $scope.$watch('CurrentPage', function () {
         $scope.getTestAll($scope.CurrentPage);
+    });
+
+    $scope.$watch('CurrentCategory', function () {
+        $scope.getQuestions();
     });
 
     $scope.$watch('TestId', function () {
@@ -674,6 +694,12 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
                 else{
                     $scope.CurrentTest.data.test_on_time=false;
                 }
+                if ($scope.CurrentTest.data.rand){
+                    $scope.CurrentTest.data.rand=true;
+                }
+                else{
+                    $scope.CurrentTest.data.rand=false;
+                }
                 for (var i=0; i<response.data.question.length; i++){
                     $scope.TempTestQList[i] = response.data.question[i];
                 }
@@ -714,7 +740,7 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
     $scope.getQuestions=function () {
         $http({
             method: 'GET',
-            url: '/admin/questions/test/get/' + $scope.TestId
+            url: '/admin/questions/test/get/' + $scope.TestId +'/'+$scope.CurrentCategory
         }).then(function success(response) {
             if (response.data) {
                 $scope.QuestionList = response.data;

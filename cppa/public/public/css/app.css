@@ -103,6 +103,65 @@ aside {
         background-color: #2F79C3;
         color: white; }
 
+.onoffswitch {
+  position: relative;
+  width: 90px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
+  .onoffswitch .onoffswitch-checkbox {
+    display: none; }
+    .onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+      margin-left: 0; }
+    .onoffswitch .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+      right: 0; }
+  .onoffswitch .onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #999999;
+    border-radius: 20px; }
+  .onoffswitch .onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s; }
+    .onoffswitch .onoffswitch-inner:before, .onoffswitch .onoffswitch-inner:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 30px;
+      padding: 0;
+      line-height: 30px;
+      font-size: 14px;
+      color: white;
+      font-family: Trebuchet, Arial, sans-serif;
+      font-weight: bold;
+      box-sizing: border-box; }
+    .onoffswitch .onoffswitch-inner:before {
+      content: "ON";
+      padding-left: 25px;
+      background-color: #34A7C1;
+      color: #FFFFFF; }
+    .onoffswitch .onoffswitch-inner:after {
+      content: "OFF";
+      padding-right: 25px;
+      background-color: #EEEEEE;
+      color: #999999;
+      text-align: right; }
+  .onoffswitch .onoffswitch-switch {
+    display: block;
+    width: 18px;
+    margin: 6px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 56px;
+    border: 2px solid #999999;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s; }
+
 main {
   padding: 10px 10px 10px 240px; }
   @media (max-width: 768px) {
@@ -111,7 +170,7 @@ main {
   main .upload-box .file_upload {
     position: relative;
     overflow: hidden;
-    margin: 0px;
+    margin: 0;
     border: 1px solid #ccc;
     font-size: 15px;
     line-height: 1;
@@ -214,6 +273,7 @@ main {
     background: #f7f7f7;
     margin: 3px -5px -6px 5px;
     border-radius: 5px 5px 0 0;
+    padding: 5px 0 5px 0;
     text-align: center; }
   main .test-edit #testEdit .containerVertical {
     min-height: 200px;

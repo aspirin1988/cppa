@@ -8,6 +8,7 @@ use App\QuestionRelation;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class AdminQuestionsController extends Controller
 {
@@ -26,14 +27,14 @@ class AdminQuestionsController extends Controller
         return view('admin.partials.question.edit',['id'=>$id]);
     }
 
-    public function getTestQ($id)
+    public function getTestQ($id,$category=0)
     {
         $issetQ=QuestionRelation::select('question_id')->where('test_id',$id)->get();
         $noselect=[];
         foreach ($issetQ->toArray() as $item){
             $noselect[]=$item['question_id'];
         };
-        $data=Question::select('id','name')->whereNotIn('id', $noselect)->get();
+        $data=Question::select('id','name')->where('question_category',$category)->whereNotIn('id', $noselect)->get();
         return response()->json($data);
     }
 
@@ -68,6 +69,7 @@ class AdminQuestionsController extends Controller
     {
         $data=$request->all();
         $data['answer']=json_encode($data['answer']);
+        $data['user']=Auth::user()->id;
         $data=Question::create($data);
         return response()->json($data);
     }
