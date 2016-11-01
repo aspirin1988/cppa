@@ -5,7 +5,12 @@ $footer-color: rgba(28, 55, 102, 1);
 $main-bg-color:#edf0f1;
 $content-bg-color:#ffffff;
 $text-color:#444;
+
+$callback-modal-bg:#393f48;
+
 $hover-color:#87B0D1;
+$green-color: #35801f;
+$orange-color:#ffa500;
 
 @mixin border-radius($lt ,$rt , $rb , $lb){
   border-radius: $lt $rt $rb $lb ;
@@ -280,6 +285,42 @@ body{
     #_title{
       //width: 50%;
 
+    }
+  }
+  #call_back_modal{
+    & .uk-modal-dialog{
+      color: $h-title-f-color;
+      width: 33%;
+      float: right;
+      height: 100vh;
+      margin: 0;
+      background-color:$callback-modal-bg;
+      @media (max-width: 425px) {
+        width: 100%;
+      }
+      input{
+        background-color: transparent;
+        color: $h-title-f-color;
+      }
+    }
+  }
+
+  .call-back-view{
+    width: 80px;
+    height: 80px;
+    background: $text-color;
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 99999;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //border: 2px $orange-color solid;
+    .call-back-button{
+      color: $contact-color;
+      font-size: 55px;
     }
   }
 

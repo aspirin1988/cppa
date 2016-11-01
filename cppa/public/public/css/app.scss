@@ -19,6 +19,12 @@ $border-avatar-menu: 50%;
 
 html{
   background-color: $white-color;
+  .uk-pointer{
+    cursor: pointer;
+    &:hover{
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8)
+    }
+  }
 }
 
 header{

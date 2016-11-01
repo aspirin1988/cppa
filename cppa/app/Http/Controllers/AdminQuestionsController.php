@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use App\QuestionCategory;
 use App\QuestionRelation;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,11 @@ class AdminQuestionsController extends Controller
     public function index()
     {
         return view('admin.partials.question.index');
+    }
+
+    public function category()
+    {
+        return view('admin.partials.question.category');
     }
 
     public function edit($id)
@@ -38,6 +44,12 @@ class AdminQuestionsController extends Controller
         return response()->json($data);
     }
 
+    public function getCategory()
+    {
+       $data= QuestionCategory::get();
+        return response()->json($data);
+    }
+
     public function getPage($page)
     {
         $limit=15;
@@ -57,6 +69,13 @@ class AdminQuestionsController extends Controller
         $data=$request->all();
         $data['answer']=json_encode($data['answer']);
         $data=Question::create($data);
+        return response()->json($data);
+    }
+
+    public function addCategory(Request $request)
+    {
+        $data=$request->all();
+        $data = QuestionCategory::create($data);
         return response()->json($data);
     }
 

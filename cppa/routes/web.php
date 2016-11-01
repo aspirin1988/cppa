@@ -75,6 +75,7 @@ Route::group(['middleware' => 'admin.side'], function() {
 
     //View & edit Question
     Route::get('/admin/questions/', 'AdminQuestionsController@index');
+    Route::get('/admin/questions/category', 'AdminQuestionsController@category');
 
     Route::get('/admin/questions/test/get/{id}', 'AdminQuestionsController@getTestQ');
     Route::get('/admin/questions/getAll/', 'AdminQuestionsController@getAllQ');
@@ -82,9 +83,11 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/question/edit/{id}', 'AdminQuestionsController@edit');
     Route::get('/admin/question/get/page/{page}', 'AdminQuestionsController@getPage');
     Route::get('/admin/question/get/{id}', 'AdminQuestionsController@get');
+    Route::get('/admin/question/category/get/', 'AdminQuestionsController@getCategory');
     Route::get('/admin/question/remove/{id}', 'AdminQuestionsController@remove');
 
     Route::post('/admin/question/add', 'AdminQuestionsController@addQuestion');
+    Route::post('/admin/question/category/add', 'AdminQuestionsController@addCategory');
     Route::post('/admin/question/save/{id}', 'AdminQuestionsController@updateQuestion');
 
 

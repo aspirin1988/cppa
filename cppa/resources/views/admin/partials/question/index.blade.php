@@ -27,11 +27,23 @@
                             </div>
                         </div>
                         <div class="uk-width-1-1 uk-margin-top">
-                            <button class="uk-button uk-button-success" ng-click="addAnswer()"  ><i class="uk-icon-plus"></i></button>
+                            <label class="uk-form-label">Категория вопроса</label>
+                            [[NewQuestion.question_category]]
+                            <div class="uk-form-controls">
+                                <select ng-model="NewQuestion.question_category">
+                                    <option ng-selected="NewQuestion.question_category" value="" >Выберите катнгорию вопроса</option>
+                                    <option ng-selected="NewQuestion.question_category==val.id"  ng-repeat="(key, val) in Questionscategory" value="[[ val.id ]]">[[ val.name ]]
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-width-1-1 uk-margin-top">
+                            <button class="uk-button uk-button-success" ng-click="addAnswerNew()"  ><i class="uk-icon-plus"></i></button>
                             <label class="uk-form-label">Ответы</label>
                         </div>
                         <div class="uk-width-1-1 uk-margin-top" ng-repeat="(key,val) in NewQuestion.answer" >
                             <label class="uk-form-label">Ответ №[[key+1]]</label>
+                            <button class="uk-button uk-button-mini uk-button-danger uk-margin-bottom" ng-click="removeAnswerNew(key)" ><i class="uk-icon-trash"></i></button>
                             <div class="uk-form-controls">
                                 <textarea ng-model="val.text" placeholder="Ответ" class="uk-width-1-1" ng-class="{'uk-form-success':val.value===true}"></textarea>
                                 <label class="label-answer" ng-class="{'active':val.value===true}" for=""></label>
@@ -66,7 +78,7 @@
         <div class="uk-grid">
             <div class="uk-width-1-1">
                 <ul class="uk-pagination">
-                    <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span ng-click="selectPage(val)">[[val+1]]</span></li>
+                    <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span class="uk-pointer" ng-click="selectPage(val)">[[val+1]]</span></li>
                 </ul>
             </div>
 
@@ -100,7 +112,7 @@
 
             <div class="uk-width-1-1">
                 <ul class="uk-pagination">
-                    <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span ng-click="selectPage(val)">[[val+1]]</span></li>
+                    <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span class="uk-pointer" ng-click="selectPage(val)">[[val+1]]</span></li>
                 </ul>
             </div>
 

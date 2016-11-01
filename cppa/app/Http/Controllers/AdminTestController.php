@@ -28,7 +28,6 @@ class AdminTestController extends Controller
     public function get($id)
     {
         $data=Test::where('id',$id)->first();
-
         $question=QuestionRelation::select('question_id')->where('test_id',$id)->get();
         $select=[];
         foreach ($question->toArray() as $item){
@@ -83,8 +82,24 @@ class AdminTestController extends Controller
 
     public function testInit ($id)
     {
-        $data = QuestionRelation::select('question_id')->where('test_id',$id)->orderByRaw("RAND()")->limit(2)->get();
-        return response()->json($data);
+        $test=Test::where('id',$id)->first();
+        if ($test->rand) {
+            $data = QuestionRelation::select('question_id')->where('test_id', $id)->orderByRaw("RAND()")->limit($test->count_question)->get();
+        }
+        else{
+            $data = QuestionRelation::select('question_id')->where('test_id', $id)->limit($test->count_question)->get();
+        }
+        $questions=[];
+        foreach ($data->toArray()as $key=>$val){
+            $questions[]=$val['question_id'];
+        }
+        $question=[];
+        foreach ($questions as $key=>$val){
+            $question[]=Question::where('id',$val)->first()->toArray();
+            $question[$key]['answer']=json_decode($question[$key]['answer'],true);
+            shuffle($question[$key]['answer']);
+        }
+        return response()->json($question);
     }
 
 

@@ -140,6 +140,7 @@
 <body>
 <main>
     @yield('content')
+    @include('site.modal.callback')
 </main>
 <footer>
     <div class="_footer">

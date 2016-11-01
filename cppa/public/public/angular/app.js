@@ -668,6 +668,12 @@ app.controller('testCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$
         }).then(function success(response) {
             if (response.data) {
                 $scope.CurrentTest = response.data;
+                if ($scope.CurrentTest.data.test_on_time){
+                    $scope.CurrentTest.data.test_on_time=true;
+                }
+                else{
+                    $scope.CurrentTest.data.test_on_time=false;
+                }
                 for (var i=0; i<response.data.question.length; i++){
                     $scope.TempTestQList[i] = response.data.question[i];
                 }
@@ -790,7 +796,9 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
 
     $scope.QuestionId=false;
     $scope.NewQuestion={name:'',answer:[]};
+    $scope.NewCategory={name:''};
     $scope.Questions=[];
+    $scope.Questionscategory=[];
     $scope.Pages=[];
     $scope.CurrentQuestion=false;
     $scope.CurrentPage=0;
@@ -819,6 +827,20 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
         });
     };
 
+    $scope.getQuestionCategory=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/question/category/get/'
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.Questionscategory = response.data;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.getQuestionCategory();
+
     $scope.getQuestionAll =function (page) {
         $http({
             method:'GET',
@@ -840,10 +862,6 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
         $scope.CurrentPage=id;
     };
 
-    $scope.addAnswer=function () {
-        $scope.NewQuestion.answer[$scope.NewQuestion.answer.length]={text:'',value:"false"};
-    };
-
     $scope.createQuestion=function () {
         if (!$scope.NewQuestion.name){
             messageWeb.messageError('Поле "Вопрос" не может быть пустым!');
@@ -861,21 +879,26 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
                     }
                 }
                 if (Answer){
-                    $http({
-                        method:'POST',
-                        url:'/admin/question/add',
-                        data:$scope.NewQuestion
-                    }).then(function success(response) {
-                        if(response.data) {
-                            console.log(response.data);
-                            $scope.getQuestionAll($scope.CurrentPage);
-                            messageWeb.messageSuccess('Вопрос успешно добавлен !');
-                            $scope.clearQuestion();
+                    if ($scope.NewQuestion.question_category!='' && $scope.NewQuestion.question_category!=undefined) {
+                        $http({
+                            method: 'POST',
+                            url: '/admin/question/add',
+                            data: $scope.NewQuestion
+                        }).then(function success(response) {
+                            if (response.data) {
+                                $scope.getQuestionAll($scope.CurrentPage);
+                                messageWeb.messageSuccess('Вопрос успешно добавлен !');
+                                $scope.clearQuestion();
 
-                        }
-                    }, function error(response) {
-                        messageWeb.messageError('Вопрос не может быть добавлен !');
-                    });
+                            }
+                        }, function error(response) {
+                            messageWeb.messageError('Вопрос не может быть добавлен !');
+                        });
+                    }
+                    else {
+                        messageWeb.messageError('Необходимо выбрать "Категорию вопроса" !');
+                    }
+
                 }
                 else{
                     messageWeb.messageError('Не выбран правельный ответ!');
@@ -884,12 +907,34 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
         }
     };
 
+    $scope.createQuestionCategory=function () {
+        if (!$scope.NewCategory.name) {
+            messageWeb.messageError('Поле "Название категории" не может быть пустым!');
+        }
+        else {
+                $http({
+                    method: 'POST',
+                    url: '/admin/question/category/add',
+                    data: $scope.NewCategory
+                }).then(function success(response) {
+                    if (response.data) {
+                        console.log(response.data);
+                        $scope.getQuestionCategory();
+                        messageWeb.messageSuccess('Категория успешно добавлена !');
+
+                    }
+                }, function error(response) {
+                    messageWeb.messageError('Категория не может быть добавлена !');
+                });
+        }
+    };
+
     $scope.clearQuestion=function () {
-        $scope.NewQuestion={};
+        $scope.NewQuestion={name:'',answer:[]};
     };
 
     $scope.saveQuestion=function () {
-        if (!$scope.CurrentQuestion.name){
+        if (!$scope.CurrentQuestion.name) {
             messageWeb.messageError('Поле "Вопрос" не может быть пустым!');
         }
         else {
@@ -897,29 +942,34 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
                 messageWeb.messageError('Вопрос не может быть добавлен! Так как внем нет ни одного ответа !');
             }
             else {
-                var Answer=false;
-                for(var i=0; i<$scope.CurrentQuestion.answer.length; i++){
-                    if ($scope.CurrentQuestion.answer[i].value===true){
-                        Answer=true;
+                var Answer = false;
+                for (var i = 0; i < $scope.CurrentQuestion.answer.length; i++) {
+                    if ($scope.CurrentQuestion.answer[i].value === true) {
+                        Answer = true;
                         break;
                     }
                 }
-                if (Answer){
-                    $http({
-                        method:'POST',
-                        url:'/admin/question/save/'+$scope.QuestionId,
-                        data:$scope.CurrentQuestion
-                    }).then(function success(response) {
-                        if(response.data) {
-                            console.log(response.data);
-                            $scope.getQuestionAll($scope.CurrentPage);
-                            messageWeb.messageSuccess('Вопрос успешно добавлен !');
-                        }
-                    }, function error(response) {
-                        messageWeb.messageError('Вопрос не может быть добавлен !');
-                    });
+                if (Answer) {
+                    if ($scope.CurrentQuestion.question_category != '' && $scope.CurrentQuestion.question_category != undefined) {
+                        $http({
+                            method: 'POST',
+                            url: '/admin/question/save/' + $scope.QuestionId,
+                            data: $scope.CurrentQuestion
+                        }).then(function success(response) {
+                            if (response.data) {
+                                console.log(response.data);
+                                $scope.getQuestionAll($scope.CurrentPage);
+                                messageWeb.messageSuccess('Вопрос успешно сохранен !');
+                            }
+                        }, function error(response) {
+                            messageWeb.messageError('Вопрос не может быть сохранен !');
+                        });
+                    }
+                    else {
+                        messageWeb.messageError('Необходимо выбрать "Категорию вопроса" !');
+                    }
                 }
-                else{
+                else {
                     messageWeb.messageError('Не выбран правельный ответ!');
                 }
             }
@@ -953,6 +1003,22 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
                 messageWeb.messageError('Вопрос не был удален!');
             });
         }
+    };
+
+    $scope.addAnswerNew=function () {
+        $scope.NewQuestion.answer[$scope.NewQuestion.answer.length]={text:'',value:"false"};
+    };
+
+    $scope.removeAnswerNew=function (key) {
+       $scope.NewQuestion.answer.splice(key,1);
+    };
+
+    $scope.addAnswerCurrent=function () {
+        $scope.CurrentQuestion.answer[$scope.CurrentQuestion.answer.length]={text:'',value:"false"};
+    };
+
+    $scope.removeAnswerCurrent=function (key) {
+        $scope.CurrentQuestion.answer.splice(key,1);
     };
 
 

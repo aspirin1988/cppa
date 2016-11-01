@@ -66,7 +66,7 @@
         <div class="uk-grid">
             <div class="uk-width-1-1">
                 <ul class="uk-pagination">
-                    <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span ng-click="selectPage(val)">[[val+1]]</span></li>
+                    <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span class="uk-pointer" ng-click="selectPage(val)">[[val+1]]</span></li>
                 </ul>
             </div>
             <div class="uk-width-1-1">
@@ -108,7 +108,7 @@
             </div>
             <div class="uk-width-1-1">
             <ul class="uk-pagination">
-                <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span ng-click="selectPage(val)">[[val+1]]</span></li>
+                <li ng-repeat="(key,val) in Pages" ng-class="{'uk-active':CurrentPage==val}" ><span class="uk-pointer" ng-click="selectPage(val)">[[val+1]]</span></li>
             </ul>
         </div>
         </div>

@@ -42,6 +42,7 @@
             <ul class="uk-nav-sub">
                 <li><a href="/admin/tests/"><i class="uk-icon uk-icon-list-alt"></i>Список тестов</a></li>
                 <li><a href="/admin/questions/"><i class="uk-icon uk-icon-list-alt"></i>Список вопросов</a></li>
+                <li><a href="/admin/questions/category/"><i class="uk-icon uk-icon-list-alt"></i>Список категорий вопросов</a></li>
             </ul>
         </li>
         <li><a href="/admin/gallery/img/"><i class="uk-icon uk-icon-image "></i>Галерея</a></li>

@@ -42,7 +42,7 @@
                                         <div class="uk-form-controls">
                                             <label class="label-answer" ng-class="{'active':val.value===true}" for=""></label>
                                             <input  type="checkbox" ng-model="CurrentTest.data.test_on_time" placeholder="Описание" class="new-answer" ng-class="{'uk-form-success':val.value===true}">
-                                            <input type="text" class="uk-width-1-1" ng-model="CurrentTest.data.time" ng-disabled="!CurrentTest.data.test_on_time" placeholder="Время" >
+                                            <input type="text" class="uk-width-1-1" ng-model="CurrentTest.data.time" ng-disabled="CurrentTest.data.test_on_time==0" placeholder="Время" >
                                         </div>
                                     </div>
                                     <div class="uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1">
@@ -52,9 +52,9 @@
                                         </div>
                                     </div>
                                     <div class="uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1">
-                                        <label class="uk-form-label">Случайный порядок</label>
+                                        <label for="rand" class="uk-form-label">Случайный порядок</label>
                                         <div class="uk-form-controls">
-                                            <input class="uk-width-1-10" type="checkbox" ng-model="CurrentTest.data.rand"  placeholder="Название">
+                                            <input class="uk-width-1-10" id="rand" type="checkbox" ng-model="CurrentTest.data.rand" ng-checked="CurrentTest.data.rand==1"  placeholder="Название">
                                         </div>
                                     </div>
                                 </div>
@@ -74,8 +74,9 @@
                                     </div>
                                     <div class="uk-width-1-2 question">
                                         <h3>Вопросы</h3>
+                                        <input type="text" ng-model="Search">
                                         <div id="containerQuesctions" class="uk-width-1-2 containerVertical">
-                                            <div ng-repeat="item in QuestionList">[[item.name]]</div>
+                                            <div ng-repeat="item in QuestionList| filter:Search">[[item.name]]</div>
                                         </div>
                                     </div>
                                 </div>

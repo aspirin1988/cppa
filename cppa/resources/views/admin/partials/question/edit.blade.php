@@ -21,8 +21,22 @@
                         <input type="text" ng-model="CurrentQuestion.name" placeholder="Вопрос" class="uk-width-1-1">
                     </div>
                 </div>
+                <div class="uk-width-1-1 uk-margin-top">
+                    <label class="uk-form-label">Категория вопроса</label>
+                    <div class="uk-form-controls">
+                        <select ng-model="CurrentQuestion.question_category">
+                            <option ng-selected="CurrentQuestion.question_category==val.id"  ng-repeat="(key, val) in Questionscategory" value="[[ val.id ]]">[[ val.name ]]
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="uk-width-1-1 uk-margin-top">
+                    <button class="uk-button uk-button-success" ng-click="addAnswerCurrent()"  ><i class="uk-icon-plus"></i></button>
+                    <label class="uk-form-label">Ответы</label>
+                </div>
                 <div class="uk-width-1-1 uk-margin-top" ng-repeat="(key,val) in CurrentQuestion.answer" >
                     <label class="uk-form-label">Ответ №[[key+1]]</label>
+                    <button class="uk-button uk-button-danger uk-button-mini uk-margin-bottom" ng-click="removeAnswerCurrent(key)" ><i class="uk-icon-trash"></i></button>
                     <div class="uk-form-controls">
                         <textarea ng-model="val.text" placeholder="Ответ" class="uk-width-1-1" ng-class="{'uk-form-success':val.value===true}"></textarea>
                         <label class="label-answer" ng-class="{'active':val.value===true}" for=""></label>

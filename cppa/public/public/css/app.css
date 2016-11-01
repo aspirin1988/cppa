@@ -1,5 +1,9 @@
 html {
   background-color: #F8F2E2; }
+  html .uk-pointer {
+    cursor: pointer; }
+    html .uk-pointer:hover {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); }
 
 header {
   width: 100%;

@@ -170,6 +170,34 @@ body {
       @media (max-width: 425px) {
         body main .content-box .contacts .contacts-info-text a {
           font-size: 15px; } }
+  body #call_back_modal .uk-modal-dialog {
+    color: #ffffff;
+    width: 33%;
+    float: right;
+    height: 100vh;
+    margin: 0;
+    background-color: #393f48; }
+    @media (max-width: 425px) {
+      body #call_back_modal .uk-modal-dialog {
+        width: 100%; } }
+    body #call_back_modal .uk-modal-dialog input {
+      background-color: transparent;
+      color: #ffffff; }
+  body .call-back-view {
+    width: 80px;
+    height: 80px;
+    background: #444;
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 99999;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    body .call-back-view .call-back-button {
+      color: #ffffff;
+      font-size: 55px; }
   body footer ._footer {
     background-color: #1c3766; }
     body footer ._footer .footer-menu h3 {
