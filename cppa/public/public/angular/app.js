@@ -214,10 +214,31 @@ app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb)
     $scope.Users=[];
     $scope.newUser={};
     $scope.CurrentUser=false;
+    $scope.UserGroups=[];
+
 
     var modal_edit=UIkit.modal('#edit-modal');
 
     var modal_remove=UIkit.modal('#remove-modal');
+
+    $scope.$watch('CurrentUser.user_group',function (e) {
+        for (var i=0; i<$scope.UserGroups.length;i++){
+
+            if ($scope.UserGroups[i].id==e){
+                $scope.CurrentUser.access_level=$scope.UserGroups[i].access_level;
+            }
+        }
+    });
+
+    $scope.getUserGroup= function(){
+        $http({
+            method:'GET',
+            url:'/admin/user_group/getAll'
+        }).then(function success(response) {
+            $scope.UserGroups= response.data;
+        }, function error(response) {});
+    };
+    $scope.getUserGroup();
 
     $scope.getUsers= function(){
         $http({
@@ -260,10 +281,10 @@ app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb)
                 if(response.data) {
                     $scope.CurrentUser = false;
                     modal_edit.hide();
-                    messageWeb.messageSuccess('Уровень доступа был успешно сохранен!');
+                    messageWeb.messageSuccess('Данные пользователя успешно сохранен!');
                 }
             }, function error(response) {
-                messageWeb.messageError('Уровень доступа не был сохранен!');
+                messageWeb.messageError('Данные пользователя не были сохранен!');
             });
         }
     };

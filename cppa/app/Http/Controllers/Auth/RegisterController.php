@@ -6,6 +6,7 @@ use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -62,10 +63,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $data['activate_token']=md5($data['email'].$data['name']);
+
+        Mail::queue('admin.email.registre',['data'=>$data], function ($message) use ($data) {
+            $message->from('aspirin_1988@mail.ru', 'Learning Laravel');
+            $message->to($data['email'])->subject('Активация пользователя');
+        });
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'activate_token' => $data['activate_token'],
             'password' => bcrypt($data['password']),
         ]);
+
+
     }
 }

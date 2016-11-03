@@ -54,8 +54,8 @@
                         <thead>
                         <tr>
                             <td>ID</td>
-                            <td>Название</td>
-                            <td>Ярлык</td>
+                            <td>Имя</td>
+                            <td>Уровень доступа</td>
                             <td>Действия</td>
                         </tr>
                         </thead>
@@ -63,12 +63,12 @@
                         <tr ng-repeat="(key,val) in Users">
                             <td>[[val.id]]</td>
                             <td>[[val.name]]</td>
-                            <td>[[val.user_group]]</td>
+                            <td>[[val.user_group_data.name]]</td>
                             <td>
-                                <button class="uk-button uk-button-success" ng-click="GoToEdit(val.id)">
+                                <button class="uk-button uk-button-success" ng-click="openEditUser(val)">
                                     <i class="uk-icon-edit"></i>
                                 </button>
-                                <button class="uk-button uk-button-danger" ng-click="openRemovePage(val)">
+                                <button class="uk-button uk-button-danger" ng-click="openRemoveUser(val)">
                                     <i class="uk-icon-remove"></i>
                                 </button>
                             </td>
@@ -79,16 +79,8 @@
             </div>
         </div>
 
-        <div id="remove-modal" class="uk-modal">
-            <div class="uk-modal-dialog">
-                <a class="uk-modal-close uk-close"></a>
-                <h2>Вы действительно хотите удалить !</h2>
-                <div class="uk-container uk-container-center uk-flex uk-flex-space-around" >
-                    <button class="uk-button uk-button-danger" ng-click="RemovePage()" >Yes</button>
-                    <button class="uk-button uk-button-success uk-modal-close" ng-click="closeRemovePage()" >No</button>
-                </div>
-            </div>
-        </div>
+        @include('admin.partials.users.edit_modal')
+        @include('admin.partials.users.remove_modal')
 
     </section>
 @endsection

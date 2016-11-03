@@ -19,6 +19,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/logout', 'AdminUsersController@logout');
+
+Route::get('/activate/user/{token}', 'AdminUsersController@activate');
+
+Route::get('/valid_email', function () {return view('auth.no_valid_email');});
 
 Auth::routes();
 
@@ -39,6 +44,8 @@ Route::group(['middleware' => 'admin.side'], function() {
     //View & Edit Users
     Route::get('/admin/users', 'AdminUsersController@index');
     Route::get('/admin/users/getAll', 'AdminUsersController@getAll');
+
+    Route::post('/admin/users/save', 'AdminUsersController@save');
 
 
     // View & edit Pages

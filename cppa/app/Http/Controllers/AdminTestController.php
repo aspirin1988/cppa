@@ -9,6 +9,9 @@ use App\Http\Requests;
 use App\Question;
 use App\Test;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
+
 
 class AdminTestController extends Controller
 {
@@ -99,7 +102,8 @@ class AdminTestController extends Controller
             $question[$key]['answer']=json_decode($question[$key]['answer'],true);
             shuffle($question[$key]['answer']);
         }
-        return response()->json($question);
+
+        return response()->json(["test"=>$test,"question"=>$question]);
     }
 
 
