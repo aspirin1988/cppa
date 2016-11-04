@@ -1071,3 +1071,129 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
 
 
 });
+
+app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService, $timeout, Translate) {
+
+    $scope.CourseID=false;
+    $scope.CurrentCourse=false;
+    $scope.Courses=[];
+    $scope.NewsCourse={};
+    $scope.CurrentPage=0;
+    $scope.Pages=[];
+    $scope.Seo = {title:{count:0,status:0},description:{count:0,status:0}};
+
+
+    $scope.$watch('NewsCourse.title',function () {
+        $scope.NewsCourse.slug = $scope.NewsCourse.title;
+        $scope.NewsCourse.slug=Translate.RuEn($scope.NewsCourse.title);
+    });
+    $scope.$watch('CourseID',function () {
+        $scope.getCourse();
+    });
+
+    $scope.getCourse=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/course/get/' + $scope.CourseID
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.CurrentCourse = response.data;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.getCoursesAll =function (page) {
+        $http({
+            method:'GET',
+            url:'/admin/courses/getCourses/'+page
+        }).then(function success(response) {
+            if(response.data) {
+                $scope.Courses = response.data.courses;
+                $scope.Pages = response.data.pages;
+            }
+        }, function error(response) {
+        });
+    };
+    $scope.getCoursesAll($scope.CurrentPage);
+
+    $scope.clearNewsCourse=function () {
+        $scope.NewsCourse={};
+    };
+
+    $scope.createNewsCourse=function () {
+        if (!$scope.NewsCourse.title) {
+            messageWeb.messageError('Поле "Название курса" не может быть пустым!');
+        }
+        else {
+            $http({
+                method: 'POST',
+                url: '/admin/courses/add/course',
+                data: $scope.NewsCourse
+            }).then(function success(response) {
+                if (response.data) {
+                    $scope.getCoursesAll($scope.CurrentPage);
+                    $scope.clearNewsCourse();
+                    messageWeb.messageSuccess('Курс успешно добавлен !');
+
+                }
+            }, function error(response) {
+                messageWeb.messageError('Курс не может быть добавлен !');
+            });
+        }
+    };
+
+    $scope.GoToEdit=function (id) {
+        location.href='/admin/courses/edit/'+id;
+    };
+
+    $scope.saveCourse = function () {
+        $http({
+            method: "POST",
+            url: '/admin/courses/save/course/' + $scope.CourseID,
+            data: $scope.CurrentCourse
+        }).then(function success(response) {
+            if (response.data) {
+                messageWeb.messageSuccess('Данные курса успешно обновлены!');
+            }
+        }, function error(response) {
+            messageWeb.messageError('Данные курса не обновлены!');
+        });
+    };
+
+
+    $scope.verificTitle = function () {
+        var _count = $scope.CurrentCourse.meta_title.length;
+        $scope.Seo.title.count = (_count/70)*100;
+        if (_count>34&&_count<65){
+            $scope.Seo.title.status =1;
+        }
+        else{
+            if (_count<=34){
+                $scope.Seo.title.status =0;
+            }
+            if (_count>=65){
+                $scope.Seo.title.status =2;
+            }
+        }
+        // console.log($scope.Seo.title);
+    };
+
+    $scope.verificDescription = function () {
+        var _count = $scope.CurrentCourse.meta_description.length;
+        $scope.Seo.description.count = (_count/150)*100;
+        if (_count>111&&_count<145){
+            $scope.Seo.description.status =1;
+        }
+        else{
+            if (_count<=111){
+                $scope.Seo.description.status =0;
+            }
+            if (_count>=145){
+                $scope.Seo.description.status =2;
+            }
+        }
+        // console.log($scope.Seo.description);
+    };
+
+});

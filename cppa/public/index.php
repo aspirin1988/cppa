@@ -7,6 +7,21 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+if (PHP_VERSION_ID<70000) {
+    function random_bytes($leight){
+        $x = '';
+
+        $str = "qwertyuiopasdfghjklzxcvbnm123456789";
+
+        for($i=0; $i<$leight; $i++){
+            $x .= substr($str, mt_rand(0, strlen($str)-1), 1);
+        }
+
+        return $x;
+    }
+}
+//error_reporting(1);
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -18,7 +33,9 @@
 | loading any of our classes later on. It feels nice to relax.
 |
 */
-
+//var_dump(__DIR__.'/public/');
+//$text=file_get_contents(__DIR__.'/../bootstrap/autoload.php');
+//var_dump($text);
 require __DIR__.'/../bootstrap/autoload.php';
 
 /*
@@ -34,6 +51,7 @@ require __DIR__.'/../bootstrap/autoload.php';
 */
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
+//var_dump($_SERVER);
 
 /*
 |--------------------------------------------------------------------------

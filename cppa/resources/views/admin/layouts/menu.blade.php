@@ -45,6 +45,15 @@
                 <li><a href="/admin/questions/category/"><i class="uk-icon uk-icon-list-alt"></i>Список категорий вопросов</a></li>
             </ul>
         </li>
+
+        <li class="uk-parent">
+            <a href="#"><i class="uk-icon uk-icon-pencil-square-o"></i>Курсы</a>
+            <ul class="uk-nav-sub">
+                <li><a href="/admin/courses/"><i class="uk-icon uk-icon-list-alt"></i>Список курсов</a></li>
+                <li><a href="/admin/courses/post/"><i class="uk-icon uk-icon-list-alt"></i>Список занятий</a></li>
+            </ul>
+        </li>
+
         <li><a href="/admin/gallery/img/"><i class="uk-icon uk-icon-image "></i>Галерея</a></li>
         <li><a href="/admin/users/"><i class="uk-icon uk-icon-users "></i>Пользователи</a></li>
         <li class="uk-parent">

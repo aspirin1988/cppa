@@ -97,6 +97,15 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::post('/admin/question/category/add', 'AdminQuestionsController@addCategory');
     Route::post('/admin/question/save/{id}', 'AdminQuestionsController@updateQuestion');
 
+    //View & edit Course
+    Route::get('/admin/courses/', 'CourseController@index');
+    Route::get('/admin/courses/edit/{id}', 'CourseController@edit');
+    Route::get('/admin/course/get/{id}', 'CourseController@getCourse');
+    Route::get('/admin/courses/getCourses/{page}', 'CourseController@getCourses');
+
+
+    Route::post('/admin/courses/add/course/', 'CourseController@addCourses');
+    Route::post('/admin/courses/save/course/{id}', 'CourseController@saveCourses');
 
 
 });
