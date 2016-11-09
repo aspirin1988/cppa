@@ -59,6 +59,12 @@ class AdminTestController extends Controller
         return response()->json(['tests'=>$data,'pages'=>$res]);
     }
 
+    public function getAll()
+    {
+        $data = Test::get();
+        return response()->json($data);
+    }
+
     public function save($id,Request $request)
     {
         $data=$request->all();

@@ -73,6 +73,7 @@ Route::group(['middleware' => 'admin.side'], function() {
     Route::get('/admin/tests/page/{page}', 'AdminTestController@getTestPage');
     Route::get('/admin/tests/edit/{id}', 'AdminTestController@edit');
     Route::get('/admin/tests/get/{id}', 'AdminTestController@get');
+    Route::get('/admin/tests/all', 'AdminTestController@getAll');
     Route::get('/admin/tests/init/{id}', 'AdminTestController@testInit');
 
     Route::post('/admin/tests/add', 'AdminTestController@addTest');
@@ -99,13 +100,21 @@ Route::group(['middleware' => 'admin.side'], function() {
 
     //View & edit Course
     Route::get('/admin/courses/', 'CourseController@index');
+    Route::get('/admin/courses/post', 'CourseController@Posts');
+    Route::get('/admin/courses/post/get/{page}', 'CourseController@getPosts');
+    Route::get('/admin/courses/posts/get/{id}', 'CourseController@getCourseP');
     Route::get('/admin/courses/edit/{id}', 'CourseController@edit');
+    Route::get('/admin/courses/post/edit/{id}', 'CourseController@editPost');
     Route::get('/admin/course/get/{id}', 'CourseController@getCourse');
+    Route::get('/admin/course/post/get/{id}', 'CourseController@getCoursePost');
+    Route::get('/admin/course/post/gallery/get/{id}', 'CourseController@getCoursePostGallery');
     Route::get('/admin/courses/getCourses/{page}', 'CourseController@getCourses');
 
 
     Route::post('/admin/courses/add/course/', 'CourseController@addCourses');
     Route::post('/admin/courses/save/course/{id}', 'CourseController@saveCourses');
+    Route::post('/admin/courses/save/post/{id}', 'CourseController@updateCoursePost');
+    Route::post('/admin/courses/add/course/new', 'CourseController@addCoursePost');
 
 
 });

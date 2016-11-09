@@ -1075,21 +1075,175 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
 app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService, $timeout, Translate) {
 
     $scope.CourseID=false;
+    $scope.CoursePostID=false;
     $scope.CurrentCourse=false;
+    $scope.CurrentPost=[];
+    $scope.CurrentCourseGallery=false;
     $scope.Courses=[];
+    $scope.Tests=[];
+    $scope.CoursesPosts=[];
     $scope.NewsCourse={};
     $scope.CurrentPage=0;
+    $scope.CurrentPagePost=0;
     $scope.Pages=[];
+    $scope.PagesPost=[];
     $scope.Seo = {title:{count:0,status:0},description:{count:0,status:0}};
+    $scope.Images=[];
+    $scope.myFile=[];
+    $scope.tempFile=[];
+    $scope.temp=[];
+    $scope.CurrentImage=false;
+    $scope.ErrorUpload=false;
+    $scope.CurrentLesson=[];
+
+    var modal_edit=UIkit.modal('#edit-modal');
+    var modal_remove=UIkit.modal('#remove-modal');
+
+    //image
+    $scope.readURL=function (file,id) {
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imagePrew' + id).css('background-image', "url('" + e.target.result + "')");
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    $scope.$watch('tempFile', function () {
+
+        $scope.Upload = false;
+
+        if (!$scope.myFile.length) {
+            $scope.myFile = $scope.tempFile;
+        }
+        else {
+            var tmp_files = [];
+            for (var i = 0; i <= $scope.myFile.length - 1; i++) {
+                tmp_files.push($scope.myFile[i]);
+            }
+            for (i = 0; i <= $scope.tempFile.length - 1; i++) {
+                var isset = find(tmp_files, $scope.tempFile[i]);
+                if (!isset) {
+                    tmp_files.push($scope.tempFile[i]);
+                }
+            }
+            $scope.myFile=tmp_files;
+        }
+    });
+
+    $scope.uploadFile=function () {
+        var file = $scope.myFile;
+        var uploadUrl = '/admin/gallery/img/upload/'+$scope.CoursePostID+'/course_post';
+        fileUpload.uploadFileToUrl(file, uploadUrl, function (e) {
+            if (e){
+                for(var i=0; i<e.length; i++){
+                    if (!e[i]) {
+                        $scope.ErrorUpload[i] = true;
+                        messageWeb.messageError('Изображение '+$scope.myFile[i].name+' не может быть загружен!');
+                    }
+                    else {
+                        messageWeb.messageSuccess('Изображение '+$scope.myFile[i].name+' загружено!');
+                    }
+                }
+                $scope.myFile=[];
+                $scope.getCoursePostGallery();
+            }
+        });
+    };
+
+    $scope.openEditImage = function (val) {
+        modal_edit.show();
+        console.log(val);
+        $scope.CurrentImage=val;
+    };
+
+    $scope.saveImage =function () {
+        $http({
+            method: "POST",
+            url: '/admin/gallery/img/edit/' + $scope.CurrentImage.id,
+            data: $scope.CurrentImage
+        }).then(function success(response) {
+            if (response.data) {
+                messageWeb.messageSuccess('Данные изображения успешно обновлены!');
+                modal_edit.hide();
+            }
+        }, function error(response) {
+            messageWeb.messageError('Данные изображения не обновлены!');
+        });
+    };
+
+    $scope.RemoveImage = function () {
+        if($scope.CurrentImage){
+            $http({
+                method:'GET',
+                url:'/admin/gallery/img/remove/'+$scope.CurrentImage.id
+            }).then(function success(response) {
+                console.log(response.data);
+                if(response.data) {
+                    $scope.CurrentImage = false;
+                    $scope.getCoursePostGallery();
+                    modal_remove.hide();
+                    messageWeb.messageSuccess('Изображение было успешно удалено!');
+                }
+            }, function error(response) {
+                messageWeb.messageError('Изображение не может быть удалено!');
+            });
+        }
+    };
+
+    $scope.openRemoveImage = function (val) {
+        modal_remove.show();
+        $scope.CurrentImage=val;
+    };
+
+    $scope.closeRemoveImage = function () {
+        modal_remove.hide();
+        $scope.CurrentGroup=false;
+    };
 
 
+    //course
     $scope.$watch('NewsCourse.title',function () {
         $scope.NewsCourse.slug = $scope.NewsCourse.title;
         $scope.NewsCourse.slug=Translate.RuEn($scope.NewsCourse.title);
     });
-    $scope.$watch('CourseID',function () {
-        $scope.getCourse();
+
+    $scope.$watch('CurrentPagePost',function () {
+        $scope.getCoursesPostAll($scope.CurrentPagePost);
     });
+
+    $scope.$watch('CourseID',function () {
+       if ($scope.CourseID) {
+           $scope.getCourse();
+           $scope.getPosts();
+
+       }
+    });
+
+    $scope.$watch('CoursePostID',function () {
+       if ($scope.CoursePostID) {
+           $scope.getCoursePost();
+           $scope.getCoursePostGallery();
+       }
+    });
+
+    $scope.getTestAll =function () {
+        $http({
+            method:'GET',
+            url:'/admin/tests/all/'
+        }).then(function success(response) {
+            if(response.data) {
+                $scope.Tests = response.data;
+                for (var i=0; i<$scope.Tests.length; i++) {
+                    $scope.Tests[i].id=$scope.Tests[i].id.toString();
+                    console.log(typeof $scope.Tests[i].id);
+                }
+            }
+        }, function error(response) {
+        });
+    };
+    $scope.getTestAll();
 
     $scope.getCourse=function () {
         $http({
@@ -1098,10 +1252,89 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
         }).then(function success(response) {
             if (response.data) {
                 $scope.CurrentCourse = response.data;
+                $scope.verificTitle();
+                $scope.verificDescription();
             }
         }, function error(response) {
         });
     };
+
+    $scope.getPosts=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/courses/posts/get/' + $scope.CoursePostID
+        }).then(function success(response) {
+            if (response.data) {
+                console.log(response.data);
+                $scope.CurrentLesson = response.data;
+
+                inintDrag();
+            }
+        }, function error(response) {
+        });
+    };
+
+    var inintDrag= function () {
+        if ($scope.CurrentLesson) {
+            dragularService.cleanEnviroment();
+            var containerLeft = document.querySelector('#containerTest'),
+                containerRight = document.querySelector('#containerQuesctions');
+
+            dragularService([containerLeft, containerRight], {
+                containersModel: [$scope.CurrentPost, $scope.CurrentLesson],
+                revertOnSpill: true
+            });
+        }
+    };
+
+
+
+    $scope.getCoursePostGallery=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/course/post/gallery/get/' + $scope.CoursePostID
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.CurrentCourseGallery = response.data;
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.getCoursePost=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/course/post/get/' + $scope.CoursePostID
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.CurrentCourse = response.data;
+                if ($scope.CurrentCourse.test_id==0){
+                    $scope.CurrentCourse.test_id=''
+                }
+                $scope.CurrentCourse.test_id=$scope.CurrentCourse.test_id.toString();
+                $scope.verificTitle();
+                $scope.verificDescription();
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.saveCoursePost = function () {
+        $http({
+            method: "POST",
+            url: '/admin/courses/save/post/' + $scope.CoursePostID,
+            data: $scope.CurrentCourse
+        }).then(function success(response) {
+            if (response.data) {
+                messageWeb.messageSuccess('Данные занятия успешно обновлены!');
+            }
+        }, function error(response) {
+            messageWeb.messageError('Данные занятия не обновлены!');
+        });
+    };
+
+
+
 
     $scope.getCoursesAll =function (page) {
         $http({
@@ -1116,6 +1349,19 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
         });
     };
     $scope.getCoursesAll($scope.CurrentPage);
+
+    $scope.getCoursesPostAll =function (page) {
+        $http({
+            method:'GET',
+            url:'/admin/courses/post/get/'+page
+        }).then(function success(response) {
+            if(response.data) {
+                $scope.CoursesPosts = response.data.courses;
+                $scope.PagesPost = response.data.pages;
+            }
+        }, function error(response) {
+        });
+    };
 
     $scope.clearNewsCourse=function () {
         $scope.NewsCourse={};
@@ -1143,8 +1389,28 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
         }
     };
 
+    $scope.createNewsCoursePost = function () {
+        $http({
+            method: 'POST',
+            url: '/admin/courses/add/course/new',
+            data: $scope.NewsCourse
+        }).then(function success(response) {
+            if (response.data) {
+                $scope.getCoursesPostAll($scope.CurrentPagePost);
+                $scope.clearNewsCourse();
+                messageWeb.messageSuccess('Занятие успешно добавлено !');
+            }
+        }, function error(response) {
+            messageWeb.messageError('Занятие не может быть добавлено !');
+        });
+    };
+
     $scope.GoToEdit=function (id) {
         location.href='/admin/courses/edit/'+id;
+    };
+
+    $scope.GoToEditPost=function (id) {
+        location.href='/admin/courses/post/edit/'+id;
     };
 
     $scope.saveCourse = function () {
@@ -1160,7 +1426,6 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
             messageWeb.messageError('Данные курса не обновлены!');
         });
     };
-
 
     $scope.verificTitle = function () {
         var _count = $scope.CurrentCourse.meta_title.length;

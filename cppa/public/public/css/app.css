@@ -196,7 +196,6 @@ main {
     line-height: 1;
     text-align: center;
     padding: 20px;
-    width: 100%;
     background: #fff; }
     main .upload-box .file_upload > input[type=file] {
       position: absolute;
