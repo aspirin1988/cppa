@@ -11,7 +11,6 @@
 @section('content')
 <section ng-controller="courseCTRL" class="user-group">
     <h2>Список курсов</h2>
-    [[NewsCourse]]
     <div class="uk-container uk-container-center">
         <div class="uk-accordion" data-uk-accordion="{collapse: false, showfirst: false}">
             <h3 class="uk-accordion-title" ng-class="{'uk-active':newGroup.length==0}">
@@ -64,7 +63,6 @@
                 </ul>
             </div>
             <div class="uk-width-1-1">
-                [[CoursesPosts]]
                 <table class="uk-table uk-table-hover uk-table-striped">
                     <thead>
                     <tr>
@@ -98,17 +96,6 @@
             </div>
         </div>
     </div>
-
-    <div id="remove-modal" class="uk-modal">
-        <div class="uk-modal-dialog">
-            <a class="uk-modal-close uk-close"></a>
-            <h2>Вы действительно хотите удалить !</h2>
-            <div class="uk-container uk-container-center uk-flex uk-flex-space-around" >
-                <button class="uk-button uk-button-danger" ng-click="RemovePage()" >Yes</button>
-                <button class="uk-button uk-button-success uk-modal-close" ng-click="closeRemovePage()" >No</button>
-            </div>
-        </div>
-    </div>
-
+        @include('admin.partials.course.post.remove_modal')
 </section>
 @endsection

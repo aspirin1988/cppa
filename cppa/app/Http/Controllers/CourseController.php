@@ -121,9 +121,58 @@ class CourseController extends Controller
         $issetP=CourseRelation::select('post_id')->where('course_id',$id)->get();
         $noselect=[];
         foreach ($issetP->toArray() as $item){
-            $noselect[]=$item['course_id'];
+            $noselect[]=$item['post_id'];
         };
         $data=CoursePost::select('id','title')->whereNotIn('id', $noselect)->get();
+        return response()->json($data);
+    }
+
+    public function getThisPosts($id)
+    {
+        $data = CourseRelation::select('post_id as id')->where('course_id',$id)->orderBy('order')->get();
+        $data=$data->toArray();
+        foreach ($data as $key=>$value){
+            $data[$key]['title']=CoursePost::where('id',$value['id'])->first()->title;
+        }
+        return response()->json($data);
+    }
+
+    public function saveRelation($id,Request $request)
+    {
+        $data = $request->all();
+        $res=[];
+        foreach ($data as $key=>$value){
+            $count = CourseRelation::where('course_id',$id)->where('post_id',$value['id'])->count();
+            if ($count){
+                CourseRelation::where('course_id',$id)->where('post_id',$value['id'])->update(['order'=>$key]);
+                $res[$key]='update';
+            }
+            else{
+//                return response()->json($value['id']);
+                CourseRelation::create(['course_id'=>$id,'post_id'=>$value['id'],'order'=>$key]);
+                $res[$key]='create';
+            }
+        }
+        return response()->json($res);
+    }
+
+    public function removeRelation($id, Request $request)
+    {
+        $data= $request->all();
+        $data = CourseRelation::where('course_id',$id)->where('post_id',$data['id'])->delete();
+        return response()->json($data);
+    }
+
+    public function removeCoursePost($id)
+    {
+        $data = CoursePost::where('id',$id)->delete();
+        $data = CourseRelation::where('post_id',$id)->delete();
+        return response()->json($data);
+    }
+
+    public function getCourseList()
+    {
+        $data = Course::get();
         return response()->json($data);
     }
     

@@ -4,13 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CourseRelation extends Model
+class UserData extends Model
 {
     public $timestamps = true;
+
     protected $guarded = array();
 
-    public function getPost()
+    public function getCourse()
     {
-        return CoursePost::where('id',$this->post_id)->first();
+        return Course::where('id',$this->course_id)->get();
     }
 }

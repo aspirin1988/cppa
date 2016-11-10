@@ -2,6 +2,7 @@
 
 namespace App;
 
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -32,4 +33,10 @@ class User extends Authenticatable
         return UserGroup::where('id',$this->user_group)->first();
 
     }
+    public function getUserCourseData()
+    {
+        return UserData::where('user_id',$this->id)->get();
+
+    }
+
 }

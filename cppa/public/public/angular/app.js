@@ -215,6 +215,8 @@ app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb)
     $scope.newUser={};
     $scope.CurrentUser=false;
     $scope.UserGroups=[];
+    $scope.CourseList=[];
+    $scope.AddNewCourse='';
 
 
     var modal_edit=UIkit.modal('#edit-modal');
@@ -229,6 +231,28 @@ app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb)
             }
         }
     });
+
+    $scope.addUserCourse= function () {
+        if($scope.CurrentUser&&$scope.AddNewCourse!=''){
+            $http({
+                method:'POST',
+                url:'/admin/user/add/course',
+                data: {user:$scope.CurrentUser.id,course:$scope.AddNewCourse}
+            }).then(function success(response) {
+                scope.getUsers();
+            }, function error(response) {});
+        }
+    };
+
+    $scope.getCourseList = function () {
+        $http({
+            method:'GET',
+            url:'/admin/course/list/get'
+        }).then(function success(response) {
+            $scope.CourseList= response.data;
+        }, function error(response) {});
+    };
+    $scope.getCourseList();
 
     $scope.getUserGroup= function(){
         $http({
@@ -246,6 +270,11 @@ app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb)
             url:'/admin/users/getAll'
         }).then(function success(response) {
             $scope.Users= response.data;
+            for(var i =0; i<$scope.Users.length; i++){
+                for(var j =0; j<$scope.Users[i].course_data.length; j++) {
+                    $scope.Users[i].course_data[j].data_course.content=$sce.trustAsHtml($scope.Users[i].course_data[j].data_course.content);
+                }
+            }
         }, function error(response) {});
     };
     $scope.getUsers();
@@ -297,6 +326,7 @@ app.controller('usersCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb)
     $scope.closeRemoveUser = function (val) {
         modal_remove.hide();
         $scope.CurrentUser=false;
+        $scope.AddNewCourse='';
     };
 
     $scope.RemoveUser = function () {
@@ -1077,7 +1107,7 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
     $scope.CourseID=false;
     $scope.CoursePostID=false;
     $scope.CurrentCourse=false;
-    $scope.CurrentPost=[];
+    $scope.CurrentPost=false;
     $scope.CurrentCourseGallery=false;
     $scope.Courses=[];
     $scope.Tests=[];
@@ -1094,7 +1124,7 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
     $scope.temp=[];
     $scope.CurrentImage=false;
     $scope.ErrorUpload=false;
-    $scope.CurrentLesson=[];
+    $scope.CurrentLesson=false;
 
     var modal_edit=UIkit.modal('#edit-modal');
     var modal_remove=UIkit.modal('#remove-modal');
@@ -1228,6 +1258,35 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
        }
     });
 
+    $scope.$watch('CurrentPost.length', function () {
+        console.log($scope.CurrentPost);
+        if ($scope.CurrentPost.length) {
+            $scope.saveRelation();
+        }
+    });
+
+    $scope.$watch('CurrentPost',function () {
+        if ($scope.CurrentPost.length) {
+            $scope.saveRelation();
+        }
+    });
+
+    $scope.saveRelation = function () {
+        $http({
+            method: "POST",
+            url: '/admin/course/save/relation/'+$scope.CourseID,
+            data: $scope.CurrentPost
+        }).then(function success(response) {
+            if (response.data) {
+                console.log(response.data);
+                // messageWeb.messageSuccess('Данные изображения успешно обновлены!');
+                // modal_edit.hide();
+            }
+        }, function error(response) {
+            messageWeb.messageError('Данные изображения не обновлены!');
+        });
+    };
+
     $scope.getTestAll =function () {
         $http({
             method:'GET',
@@ -1257,37 +1316,111 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
             }
         }, function error(response) {
         });
-    };
-
-    $scope.getPosts=function () {
         $http({
             method: 'GET',
-            url: '/admin/courses/posts/get/' + $scope.CoursePostID
+            url: '/admin/courses/this/posts/get/' + $scope.CourseID
         }).then(function success(response) {
             if (response.data) {
-                console.log(response.data);
-                $scope.CurrentLesson = response.data;
-
+                $scope.CurrentPost = response.data;
                 inintDrag();
             }
         }, function error(response) {
         });
     };
 
+    $scope.getPosts=function () {
+        $http({
+            method: 'GET',
+            url: '/admin/courses/posts/get/' + $scope.CourseID
+        }).then(function success(response) {
+            if (response.data) {
+                console.log(response.data);
+                $scope.CurrentLesson = response.data;
+                inintDrag();
+            }
+        }, function error(response) {
+        });
+    };
+
+    $scope.removeTQ=function (val,key) {
+        $http({
+            method: "POST",
+            url: '/admin/course/remove/relation/'+$scope.CourseID,
+            data: val
+        }).then(function success(response) {
+            if (response.data) {
+                messageWeb.messageSuccess('Занятие успешно удалено!');
+                $scope.CurrentLesson[$scope.CurrentLesson.length]=val;
+                $scope.CurrentPost.splice(key,1);
+            }
+        }, function error(response) {
+            messageWeb.messageError('Занятие не может быть удалено!');
+        });
+    };
+
+
     var inintDrag= function () {
-        if ($scope.CurrentLesson) {
+        if ($scope.CurrentPost&&$scope.CurrentLesson) {
             dragularService.cleanEnviroment();
             var containerLeft = document.querySelector('#containerTest'),
                 containerRight = document.querySelector('#containerQuesctions');
 
-            dragularService([containerLeft, containerRight], {
+            $scope.Darg =  dragularService([containerLeft, containerRight], {
                 containersModel: [$scope.CurrentPost, $scope.CurrentLesson],
-                revertOnSpill: true
+                revertOnSpill: true,
+                scope: $scope
+            });
+            $scope.$on('dragulardrop', myFn('drop'));
+
+            function myFn(eventName) {
+                return function() {
+                    // console.log(eventName, arguments);
+                    $scope.saveRelation();
+                };
+            }
+        }
+    };
+
+    $scope.openRemovePage =function (val) {
+        modal_remove.show();
+        $scope.CurrentLesson=val;
+    };
+
+    $scope.RemoveLesson=function () {
+        if($scope.CurrentLesson){
+            $http({
+                method:'GET',
+                url:'/admin/lesson/remove/'+$scope.CurrentLesson.id
+            }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentLesson = false;
+                    $scope.getCoursesPostAll();
+                    modal_remove.hide();
+                    messageWeb.messageSuccess('Задание было успешно удалено!');
+                }
+            }, function error(response) {
+                messageWeb.messageError('Задание не может быть удалено!');
             });
         }
     };
 
-
+    $scope.RemoveCourse=function () {
+        if($scope.CurrentLesson){
+            $http({
+                method:'GET',
+                url:'/admin/lesson/remove/'+$scope.CurrentLesson.id
+            }).then(function success(response) {
+                if(response.data) {
+                    $scope.CurrentLesson = false;
+                    $scope.getCoursesAll($scope.CurrentPage);
+                    modal_remove.hide();
+                    messageWeb.messageSuccess('Курс было успешно удален!');
+                }
+            }, function error(response) {
+                messageWeb.messageError('Курс не может быть удален!');
+            });
+        }
+    };
 
     $scope.getCoursePostGallery=function () {
         $http({

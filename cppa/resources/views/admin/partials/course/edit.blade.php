@@ -1,7 +1,7 @@
 @extends('admin.dashboard')
 
 @section('content')
-    <section ng-controller="courseCTRL" ng-init="CourseID={{$id}};" >
+    <section ng-controller="courseCTRL" ng-init="CourseID={{$id}};" class="test-edit" >
         <h2>Редактирование страницы</h2>
         <div class="uk-grid">
             <div class=" uk-form uk-width-small-1-1 uk-width-medium-7-10 uk-width-large-7-10 uk-visible-small uk-accordion" data-uk-accordion="{collapse: true, showfirst: true}">
@@ -28,6 +28,12 @@
                     </div>
                 </div>
                 <div class="uk-width-1-1 uk-margin-top">
+                    <label class="uk-form-label">Пордолжительность в днях</label>
+                    <div class="uk-form-controls">
+                        <input type="text" ng-model="CurrentCourse.duration" placeholder="Пордолжительность">
+                    </div>
+                </div>
+                <div class="uk-width-1-1 uk-margin-top">
                     <label class="uk-form-label">Контент</label>
                     <div class="uk-form-controls">
                             <textarea ui-tinymce="tinymceOptions" ng-model="CurrentCourse.content"></textarea>
@@ -42,10 +48,10 @@
                         <div id="testEdit" class="wrapper">
                             <div class='uk-grid'>
                                 <div class="uk-width-1-2 test">
-                                    <h3>Тест</h3>
+                                    <h3>Курс</h3>
                                     <div id="containerTest" class="containerVertical">
                                         <div class="" ng-repeat="(key,item) in CurrentPost">[[item.title]]
-                                            <a ng-click="removeTQ(key)" class="uk-button uk-button-danger uk-button-mini uk-float-right" title="Удалить вопрос">
+                                            <a ng-click="removeTQ(item,key)" class="uk-button uk-button-danger uk-button-mini uk-float-right" title="Удалить вопрос">
                                                 <i class="uk-icon-remove"></i>
                                             </a>
                                         </div>
@@ -53,33 +59,9 @@
                                 </div>
                                 <div class="uk-width-1-2 question">
                                     <div class="uk-form">
-                                        <h3>Вопросы
-                                            <div class="uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1 uk-text-left uk-margin-left">
-                                                <label class="uk-form-label">Категория вопросов</label>
-                                                <div class="uk-form-controls">
-                                                    {{--<select ng-model="CurrentCategory">--}}
-                                                        {{--<option ng-selected="CurrentCategory" value="0">Выберите--}}
-                                                            {{--категорию вопроса--}}
-                                                        {{--</option>--}}
-                                                        {{--<option ng-selected="CurrentCategory==val.id"--}}
-                                                                {{--ng-repeat="(key, val) in Questionscategory"--}}
-                                                                {{--value="[[ val.id ]]">--}}
-                                                            {{--[[ val.name ]]--}}
-                                                        {{--</option>--}}
-                                                    {{--</select>--}}
-                                                </div>
-                                            </div>
-                                            <div class="uk-width-small-1-1 uk-width-medium-1-1 uk-width-large-1-1 uk-text-left uk-margin-left">
-                                                <label class="uk-form-label">Название вопроса</label>
-                                                <div class="uk-form-controls">
-                                                    <input type="text" ng-model="Search"
-                                                           placeholder="Название вопроса">
-                                                </div>
-                                            </div>
-
+                                        <h3>Занятия
                                         </h3>
                                     </div>
-                                    [[CurrentLesson]]
                                     <div id="containerQuesctions" class="uk-width-1-2 containerVertical">
                                         <div ng-repeat="item in CurrentLesson">[[item.title]]</div>
                                     </div>
