@@ -4,6 +4,7 @@
 
 var app = angular.module('cppaApp',['dragularModule','ui.tinymce']);
 
+
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
@@ -107,6 +108,18 @@ app.service('Translate',function () {
        }
        return '';
    };
+});
+
+app.service('ConfigData',function () {
+
+   this.getMyConfig = function () {
+       var thumb_modal = UIkit.modal('#thumbnail-select');
+       var config = {
+           NoImage : '/img/no-image-box.png',
+           thumb_modal: thumb_modal
+       };
+       return config;
+   }
 });
 
 app.config(function ($interpolateProvider) {
@@ -1102,7 +1115,9 @@ app.controller('questionCTRL',function ($scope, $http, $sce ,fileUpload,messageW
 
 });
 
-app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService, $timeout, Translate) {
+app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb,$element, dragularService, $timeout, Translate , ConfigData) {
+
+    $scope.Myconfig = ConfigData.getMyConfig();
 
     $scope.CourseID=false;
     $scope.CoursePostID=false;
@@ -1186,6 +1201,13 @@ app.controller('courseCTRL',function ($scope, $http, $sce ,fileUpload,messageWeb
         modal_edit.show();
         console.log(val);
         $scope.CurrentImage=val;
+    };
+
+    $scope.OpenModalThumb = function (val) {
+        console.log($scope.Myconfig);
+        $scope.Myconfig.thumb_modal.show();
+        // console.log(val);
+        // $scope.CurrentImage=val;
     };
 
     $scope.saveImage =function () {

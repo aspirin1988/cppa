@@ -16,6 +16,9 @@ Route::get('/', function () {
     return view('site.pages.index');
 });
 
+Route::get('/courses', 'HomeController@CoursesArchive');
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');

@@ -133,9 +133,13 @@
                         <i class="uk-icon-plus-circle uk-text-success"></i>
                     </h3>
                     <div class="uk-accordion-content">
+                        <a ng-click="OpenModalThumb()">
+                            <img src="[[Myconfig.NoImage]]" alt="">
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+        @include('admin.partials.course.thumbnail_select')
     </section>
 @endsection

@@ -4,7 +4,7 @@
             <nav class="uk-navbar menu">
                 <ul class="uk-navbar-nav">
                     <li class="uk-active"><a href="/">Главная</a></li>
-                    <li><a href="">О нас</a></li>
+                    <li><a href="/courses">Курсы</a></li>
                     <li><a href="">О нас</a></li>
                     <li><a href="">О нас</a></li>
                     <li><a href="">О нас</a></li>
