@@ -5,8 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (isset($meta_data))
+        <title>{{$meta_data->meta_title}}</title>
+        <meta name="description" content="{{$meta_data->meta_description}}">
+        @else
     <title>Главная страница</title>
     <meta name="description" content="This main page">
+    @endif
 
     <link rel="stylesheet" href="/css/uikit.gradient.min.css">
     <link rel="stylesheet" href="/css/app.css">
